@@ -16,9 +16,13 @@ class Login extends Connection
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
 
-        $sql = "select * from tbl_android_users where username = $1 and password = $2;";
+        $sql = "select id as user_id from tbl_android_users where username = $1 and password = $2;";
 
         $result = pg_query_params($sql, array($username, $password));
+        if($result){
+            $row = pg_fetch_object($result);
+           echo json_encode($row);
+        }
 
         pg_free_result($result);
     }
