@@ -7,13 +7,15 @@
  */
 
 include("checkuser.php");
-
+include 'Mcrypt.php';
 class SyncData extends Connection
 {
     function __construct()
     {
-        $imei = $_REQUEST['imei'];
-        $user_id = $_REQUEST['user_id'];
+        $mcrypt = new MCrypt();
+
+        $imei = $mcrypt->decrypt($_REQUEST['imei']);
+        $user_id = $mcrypt->decrypt($_REQUEST['user_id']);
         $checkUser = new CheckUser();
         $check = $checkUser->check($imei, $user_id);
         if (!$check) {
