@@ -8,13 +8,16 @@
 
 
 include ("connection.php");
+include 'Mcrypt.php';
 class Login extends Connection
 {
     function __construct()
     {
 
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+
+        $mcrypt = new MCrypt();
+        $username = $mcrypt->decrypt($_REQUEST['username']);
+        $password = $mcrypt->decrypt($_REQUEST['password']);
 
         $sql = "select id as user_id from tbl_android_users where username = $1 and password = $2;";
 
