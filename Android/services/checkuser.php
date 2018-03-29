@@ -7,7 +7,7 @@
  */
 //header("Cache-Control: no-store; must-revalidate");
 //header("Cache-Control: no-store, no-cache, must-revalidate");
-include("../../services/connection.php");
+include("connection.php");
 
 class CheckUser extends Connection
 {
