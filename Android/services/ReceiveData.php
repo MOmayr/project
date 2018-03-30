@@ -15,7 +15,7 @@ class ReceiveData extends Connection
 
         $extraImgFolder = "/images/extras/";
         try {
-//            error_reporting(0);
+//            error_reporting(E_ALL);
             $mcrypt = new MCrypt();
             $imei = $mcrypt->decrypt($_REQUEST['imei']);
             $surveyor_id = $mcrypt->decrypt($_REQUEST['surveyor_id']);
