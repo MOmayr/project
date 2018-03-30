@@ -13,6 +13,7 @@ class ReceiveData extends Connection
     function __construct()
     {
 
+        $extraImgFolder = "/images/extras/";
         try {
 //            error_reporting(0);
             $mcrypt = new MCrypt();
@@ -80,20 +81,21 @@ class ReceiveData extends Connection
             $excise_officer_name = $mcrypt->decrypt($_REQUEST['excise_officer_name']);
             $excise_officer_cnic = $mcrypt->decrypt($_REQUEST['excise_officer_cnic']);
             $condition_of_building = $mcrypt->decrypt($_REQUEST['condition_of_building']);
-            $storeys = $mcrypt->decrypt($_REQUEST['storeys']);
-            $extra_pictures = $mcrypt->decrypt($_REQUEST['extra_pictures']);
+            $storeys = json_decode($mcrypt->decrypt($_REQUEST['storeys']));
+            $extra_pictures = json_decode($mcrypt->decrypt($_REQUEST['extra_pictures']));
             $is_mock = $mcrypt->decrypt($_REQUEST['is_mock']);
-            $basements = $mcrypt->decrypt($_REQUEST['basements']);
+            $basements = json_decode($mcrypt->decrypt($_REQUEST['basements']));
 
 
             $pictures = array();
             $picturePaths = $this->getImage("picture");
-            array_push($pictures, $picturePaths[0]);
 
 
             if ($picturePaths[0] == "") {
-                echo json_encode(array("result" => "error", "msg" => "Problem in uploading Property Image"));
+                echo json_encode(array("result" => "error", "msg" => "Property Image does not exist!"));
                 return;
+            } else {
+                array_push($pictures, $picturePaths[0]);
             }
 
             $sql = "INSERT INTO public.base_android_data(
@@ -127,7 +129,7 @@ class ReceiveData extends Connection
             $46, $47, $48,
             (select id from tbl_occupation_type where occupation_type = $49), $50, (select id from tbl_building_condition where condition = $51), $52,
             $53, $54, st_setsrid($55::geometry,4326))
-            ;";
+            returning id;";
 
             pg_query("BEGIN");
 
@@ -156,22 +158,69 @@ class ReceiveData extends Connection
             } else {
                 $rowId = pg_fetch_row($resource)[0];
 
-//                if (sizeof($dth_holes) !== 0) {
-//                    $dthQuery = "INSERT INTO public.tbl_mine_management_dth_holes(mine_management_main_table_id, dth_hole_number_id, dth_hole_depth)
-//VALUES ($1,$2,$3);";
+                if (sizeof($extra_pictures) !== 0) {
+                    $extraPicturesQuery = "INSERT INTO public.tbl_extra_pictures(
+	base_android_data_key, datetime, pic_path, description, index)
+	VALUES ($1, $2, $3, $4, $5);";
 
-//                    foreach ($dth_holes as $index => $value) {
-//                        $dthRes = pg_query_params($dthQuery, array($rowId, $value->number, $value->depth));
-//                        if (!$dthRes) {
-//                            pg_query("ROLLBACK");
-//                            echo json_encode(array("error" => "Problem in Inserting Data to DB!"));
-//                            $this->deleteImage($pic1Paths[0]);
-//                            $this->deleteImage($pic2Paths[0]);
-//                            $this->deleteImage($pic3Paths[0]);
-//                            return;
-//                        }
-//                    }
-//                }
+                    foreach ($extra_pictures as $index => $value) {
+                        $extraPicPaths = $this->getImage("image" . $index, $extraImgFolder);
+                        if ($extraPicPaths[0] == "") {
+                            echo json_encode(array("result" => "error", "msg" => "Image " . $index . " does not exist!"));
+                            $this->deleteImages($pictures);
+                            return;
+                        } else {
+                            array_push($pictures, $extraPicPaths[0]);
+                        }
+
+                        $extraPictureRes = pg_query_params($extraPicturesQuery, array($rowId, $value->datetime, $extraPicPaths[1], $value->desc, $value->index));
+                        if (!$extraPictureRes) {
+                            pg_query("ROLLBACK");
+                            echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
+                            $this->deleteImages($pictures);
+                            return;
+                        }
+                    }
+                }
+
+                if (sizeof($basements) !== 0) {
+                    $extraBasementsQuery = "INSERT INTO public.tbl_extra_basements(
+	base_android_data_key, occ_status, self_area, rented_area, index)
+	VALUES ($1, (select id from tbl_occupation_type where occupation_type = $2), $3, $4, $5);";
+
+                    foreach ($basements as $index => $value){
+                        $extraBasementsRes = pg_query_params($extraBasementsQuery, array($rowId, $value->occ_status, (double)$value->self_area,
+                            (double)$value->rented_area, $value->index));
+                        if(!$extraBasementsRes){
+                            pg_query("ROLLBACK");
+                            echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
+                            $this->deleteImages($pictures);
+                            return;
+                        }
+                    }
+
+                }
+
+
+                if (sizeof($storeys) !== 0) {
+                    $extraStoreysQuery = "INSERT INTO public.tbl_extra_storeys(
+	base_android_data_key, occ_status, self_area, rented_area, index)
+	VALUES ($1, (select id from tbl_occupation_type where occupation_type = $2), $3, $4, $5);";
+
+                    foreach ($storeys as $index => $value){
+                        $extraStoreysRes = pg_query_params($extraStoreysQuery, array($rowId, $value->occ_status, (double)$value->self_area,
+                            (double)$value->rented_area, $value->index));
+                        if(!$extraStoreysRes){
+                            pg_query("ROLLBACK");
+                            echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
+                            $this->deleteImages($pictures);
+                            return;
+                        }
+                    }
+
+                }
+
+
 
                 pg_query("COMMIT");
                 echo json_encode(array("result" => "success", "server_id" => $rowId));
@@ -186,20 +235,21 @@ class ReceiveData extends Connection
         foreach ($pics as $pic) {
             try {
                 unlink($pic);
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
     }
 
-    function getImage($pictureName)
+    function getImage($pictureName, $folder = "/images/")
     {
         $paths = array("", "");
         try {
             $ext = ".jpg";
-            $onlinePath = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF'], 2) . "/images/";
+            $onlinePath = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF'], 2) . $folder;
             $now = DateTime::createFromFormat('U.u', microtime(true));
             $now = $now->format("Y-m-d_H_i_s.u");
             $fileName = $pictureName . "_" . $now . mt_rand() . $ext;
-            $target_file = "../images/" . $fileName;
+            $target_file = ".." . $folder . $fileName;
             $onlinePath .= $fileName;
             if (move_uploaded_file($_FILES[$pictureName]["tmp_name"], $target_file)) {
                 $paths[0] = $target_file;
