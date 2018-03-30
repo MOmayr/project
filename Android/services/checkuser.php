@@ -15,7 +15,7 @@ class CheckUser extends Connection
     function check($imei, $user_id)
     {
         if ($imei) {
-            $sqlCheck = "select * from tbl_android_users where imei = $1 and id = $2;";
+            $sqlCheck = "select * from tbl_android_users where imei = $1 and id = $2 and access is true;";
             $resultCheck = pg_fetch_array(pg_query_params($sqlCheck, array($imei, $user_id)));
             if ($resultCheck == null) {
                 return false;

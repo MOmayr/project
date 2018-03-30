@@ -1,5 +1,6 @@
 Android/images/*
 !Android/images/.empty
+!Android/images/extras/.empty
 .idea
 Android/services/connection.php
 services/connection.php

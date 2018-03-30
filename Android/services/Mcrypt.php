@@ -38,7 +38,7 @@ class MCrypt
             mcrypt_generic_deinit($td);
         mcrypt_module_close($td);
         $trim = trim($decrypted);
-        return $isBinary ? $trim == $this->MNULLVAL ? null : $trim : utf8_encode(trim($decrypted));
+        return $isBinary ? $trim : utf8_encode($trim) == $this->MNULLVAL ? null : utf8_encode($trim);
     }
     protected function hex2bin($hexdata)
     {

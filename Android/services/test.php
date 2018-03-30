@@ -6,5 +6,4 @@
  * Time: 9:02 PM
  */
 
-echo $_SERVER['HTTP_HOST'];
-echo dirname($_SERVER['PHP_SELF'], 2);
+echo "http://". $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF'], 2);

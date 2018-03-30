@@ -14,14 +14,14 @@ class ReceiveData extends Connection
     {
 
         try {
-            error_reporting(0);
+//            error_reporting(0);
             $mcrypt = new MCrypt();
             $imei = $mcrypt->decrypt($_REQUEST['imei']);
             $surveyor_id = $mcrypt->decrypt($_REQUEST['surveyor_id']);
             $check = new CheckUser();
             $verified = $check->check($imei, $surveyor_id);
             if (!$verified) {
-                echo json_encode(array("result" => "unauthorized"));
+                echo json_encode(array("result" => "error", "msg" => "You are Unauthorized to send Data!"));
                 return;
             }
 //            else{
@@ -30,119 +30,163 @@ class ReceiveData extends Connection
 //            }
 
 
-            $mobile_datetime = str_replace("_", ":", $_POST['mobile_datetime']);
-            $date_reporting = $_POST['date_reporting'];
-            $mine_id = $_POST['mine_id'];
-            $quarry_id = $_POST['quarry_id'];
-            $dth_holes = json_decode($_POST['dth_holes']);
-            $diamond_wire_saw_cuts = json_decode($_POST['diamond_wire_saw_cuts']);
-            $excavator_start_reading = $_POST['excavator_start_reading'];
-            $excavator_stop_reading = $_POST['excavator_stop_reading'];
-            $compressor_start_reading = $_POST['compressor_start_reading'];
-            $compressor_stop_reading = $_POST['compressor_stop_reading'];
-            $generator_start_reading = $_POST['generator_start_reading'];
-            $generator_stop_reading = $_POST['generator_stop_reading'];
-            $wheel_loader_start_reading = $_POST['wheel_loader_start_reading'];
-            $wheel_loader_stop_reading = $_POST['wheel_loader_stop_reading'];
-            $brief_progress = $_POST['brief_progress'];
-            $problem_issue = $_POST['problem_issue'];
-            $diesel_expense = (int)$_POST['diesel_expense'];
-            $kitchen_expense = (int)$_POST['kitchen_expense'];
-            $misc_description = $_POST['misc_description'];
-            $misc_expense = (int)$_POST['misc_expense'];
+            $survey_datetime = $mcrypt->decrypt($_REQUEST['survey_datetime']);
+            $lat = $mcrypt->decrypt($_REQUEST['lat']);
+            $lng = $mcrypt->decrypt($_REQUEST['lng']);
+            $respondant_name = $mcrypt->decrypt($_REQUEST['respondant_name']);
+            $resp_rel_with_pr_owner = $mcrypt->decrypt($_REQUEST['resp_rel_with_pr_owner']);
+            $pr_type = $mcrypt->decrypt($_REQUEST['pr_type']);
+            $pin = $mcrypt->decrypt($_REQUEST['pin']);
+            $district_name = $mcrypt->decrypt($_REQUEST['district_name']);
+            $ratingarea_name = $mcrypt->decrypt($_REQUEST['ratingarea_name']);
+            $tehsil_name = $mcrypt->decrypt($_REQUEST['tehsil_name']);
+            $circle_name = $mcrypt->decrypt($_REQUEST['circle_name']);
+            $locality_name = $mcrypt->decrypt($_REQUEST['locality_name']);
+            $ward_name = $mcrypt->decrypt($_REQUEST['ward_name']);
+            $block_name = $mcrypt->decrypt($_REQUEST['block_name']);
+            $mohallah = $mcrypt->decrypt($_REQUEST['mohallah']);
+            $punumber = $mcrypt->decrypt($_REQUEST['punumber']);
+            $existing_serial = $mcrypt->decrypt($_REQUEST['existing_serial']);
+            $owner_name = $mcrypt->decrypt($_REQUEST['owner_name']);
+            $owner_cnic = $mcrypt->decrypt($_REQUEST['owner_cnic']);
+            $type_of_property = $mcrypt->decrypt($_REQUEST['type_of_property']);
+            $occupation_status = $mcrypt->decrypt($_REQUEST['occupation_status']);
+            $tenate_name = $mcrypt->decrypt($_REQUEST['tenate_name']);
+            $tenate_cnic = $mcrypt->decrypt($_REQUEST['tenate_cnic']);
+            $rental_amount = $mcrypt->decrypt($_REQUEST['rental_amount']);
+            $rented_since = $mcrypt->decrypt($_REQUEST['rented_since']);
+            $date_of_construction = $mcrypt->decrypt($_REQUEST['date_of_construction']);
+            $date_of_last_remodeling = $mcrypt->decrypt($_REQUEST['date_of_last_remodeling']);
+            $landuse_commercial = $mcrypt->decrypt($_REQUEST['landuse_commercial']);
+            $landuse_residential = $mcrypt->decrypt($_REQUEST['landuse_residential']);
+            $landuse_special = $mcrypt->decrypt($_REQUEST['landuse_special']);
+            $landuse_special_desc = $mcrypt->decrypt($_REQUEST['landuse_special_desc']);
+            $landuse_other = $mcrypt->decrypt($_REQUEST['landuse_other']);
+            $landuse_other_desc = $mcrypt->decrypt($_REQUEST['landuse_other_desc']);
+            $electricity = $mcrypt->decrypt($_REQUEST['electricity']);
+            $gas = $mcrypt->decrypt($_REQUEST['gas']);
+            $telephone = $mcrypt->decrypt($_REQUEST['telephone']);
+            $sewarage = $mcrypt->decrypt($_REQUEST['sewarage']);
+            $sanitation = $mcrypt->decrypt($_REQUEST['sanitation']);
+            $water_supply = $mcrypt->decrypt($_REQUEST['water_supply']);
+            $road_street = $mcrypt->decrypt($_REQUEST['road_street']);
+            $public_transport = $mcrypt->decrypt($_REQUEST['public_transport']);
+            $front_of_property = $mcrypt->decrypt($_REQUEST['front_of_property']);
+            $land_area = $mcrypt->decrypt($_REQUEST['land_area']);
+            $building_area = $mcrypt->decrypt($_REQUEST['building_area']);
+            $g_floor_self_area = $mcrypt->decrypt($_REQUEST['g_floor_self_area']);
+            $g_floor_rented_area = $mcrypt->decrypt($_REQUEST['g_floor_rented_area']);
+            $g_floor_occupation_status = $mcrypt->decrypt($_REQUEST['g_floor_occupation_status']);
+            $excise_officer_name = $mcrypt->decrypt($_REQUEST['excise_officer_name']);
+            $excise_officer_cnic = $mcrypt->decrypt($_REQUEST['excise_officer_cnic']);
+            $condition_of_building = $mcrypt->decrypt($_REQUEST['condition_of_building']);
+            $storeys = $mcrypt->decrypt($_REQUEST['storeys']);
+            $extra_pictures = $mcrypt->decrypt($_REQUEST['extra_pictures']);
+            $is_mock = $mcrypt->decrypt($_REQUEST['is_mock']);
+            $basements = $mcrypt->decrypt($_REQUEST['basements']);
 
-            $pic1Paths = $this->getImage("picture1");
-            $pic2Paths = $this->getImage("picture2");
-            $pic3Paths = $this->getImage("picture3");
+
+            $pictures = array();
+            $picturePaths = $this->getImage("picture");
+            array_push($pictures, $picturePaths[0]);
 
 
-            if ($pic1Paths[0] == "" || $pic2Paths[0] == "" || $pic3Paths[0] == "") {
-                echo json_encode(array("error" => "Problem in uploading pictures"));
+            if ($picturePaths[0] == "") {
+                echo json_encode(array("result" => "error", "msg" => "Problem in uploading Property Image"));
                 return;
             }
 
-            $sql = "INSERT INTO public.tbl_mine_management_main(imei, mobile_datetime, mine_id, quarry_id, no_of_dth_holes, 
-            number_of_diamond_wire_saw_cuts, excavator_start_reading, excavator_stop_reading, 
-            compressor_start_reading, compressor_stop_reading, generator_start_reading, 
-            generator_stop_reading, wheel_loader_start_reading, wheel_loader_stop_reading, 
-            brief_progress, problem_issue, diesel_expense, 
-            kitchen_expense, misc_description, misc_expense, pic1, pic2, 
-            pic3, date_reporting, total_expense_quarry)
-    VALUES ($1, $2, (select mine_id from tbl_mine where mine_name  = $3),
-            (select id from tbl_quarry where quarry = $4), $5, $6, $7, $8, $9, $10,
-            $11, $12, $13, $14, $15, $16, $17, $18, $19,
-            $20, $21, $22, $23, $24, $25) returning id;";
+            $sql = "INSERT INTO public.base_android_data(
+	survey_datetime, surveyor_id, imei, lat,
+    lng, img_path, respondant_name, resp_rel_with_pr_owner,
+    pr_type, pin, district_name, ratingarea_name,
+    tehsil_name, circle_name, locality_name, ward_name,
+    block_name, mohallah, punumber, existing_serial,
+    owner_name, owner_cnic, type_of_property,
+    occupation_status, tenate_name, tenate_cnic,
+    rental_amount, rented_since, date_of_construction, date_of_last_remodeling,
+    landuse_commercial, landuse_residential, landuse_special, landuse_special_desc,
+    landuse_other, landuse_other_desc, electricity, gas,
+    telephone, sewarage, sanitation, water_supply,
+    road_street, public_transport, front_of_property,
+    land_area, building_area, g_floor_self_area,
+    g_floor_occupation_status, g_floor_rented_area, condition_of_building, excise_officer_name,
+    excise_officer_cnic, is_mock, geom)
+	VALUES ((select substring ($1, 1,19))::timestamp , $2, $3, $4,
+            $5, $6, $7, $8,
+            (select id from tbl_pr_type where type = $9), $10, $11, $12,
+            $13, $14, $15, $16,
+            $17, $18, $19, $20,
+            $21, $22, (select id from tbl_property_type where type = $23),
+            (select id from tbl_occupation_type where occupation_type = $24), $25, $26,
+            $27, $28, $29, $30,
+            $31, $32, $33, $34,
+            $35, $36, $37, $38,
+            $39, $40, $41, $42,
+            $43, $44, (select id from tbl_property_front where front_type = $45),
+            $46, $47, $48,
+            (select id from tbl_occupation_type where occupation_type = $49), $50, (select id from tbl_building_condition where condition = $51), $52,
+            $53, $54, st_setsrid($55::geometry,4326))
+            ;";
 
             pg_query("BEGIN");
 
-            $resource = pg_query_params($sql, array($imei, $mobile_datetime, $mine_id, $quarry_id, sizeof($dth_holes), sizeof($diamond_wire_saw_cuts),
-                $excavator_start_reading, $excavator_stop_reading, $compressor_start_reading, $compressor_stop_reading, $generator_start_reading,
-                $generator_stop_reading, $wheel_loader_start_reading, $wheel_loader_stop_reading,
-                $brief_progress, $problem_issue, $diesel_expense,
-                $kitchen_expense, $misc_description, $misc_expense, $pic1Paths[1], $pic2Paths[1], $pic3Paths[1], $date_reporting,
-                $kitchen_expense + $diesel_expense + $misc_expense));
+            $resource = pg_query_params($sql, array(
+                $survey_datetime, $surveyor_id, $imei, $lat,
+                $lng, $picturePaths[1], $respondant_name, $resp_rel_with_pr_owner,
+                $pr_type, $pin, $district_name, $ratingarea_name,
+                $tehsil_name, $circle_name, $locality_name, $ward_name,
+                $block_name, $mohallah, $punumber, $existing_serial,
+                $owner_name, $owner_cnic, $type_of_property,
+                $occupation_status, $tenate_name, $tenate_cnic,
+                $rental_amount, $rented_since, $date_of_construction, $date_of_last_remodeling,
+                $landuse_commercial, $landuse_residential, $landuse_special, $landuse_special_desc,
+                $landuse_other, $landuse_other_desc, $electricity, $gas,
+                $telephone, $sewarage, $sanitation, $water_supply,
+                $road_street, $public_transport, $front_of_property,
+                $land_area, $building_area, $g_floor_self_area,
+                $g_floor_occupation_status, $g_floor_rented_area, $condition_of_building, $excise_officer_name,
+                $excise_officer_cnic, $is_mock, "Point($lng $lat)"));
 
             if (!$resource) {
                 pg_query("ROLLBACK");
-                echo json_encode(array("error" => "Problem in Inserting Data to DB!"));
-                $this->deleteImage($pic1Paths[0]);
-                $this->deleteImage($pic2Paths[0]);
-                $this->deleteImage($pic3Paths[0]);
+                echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
+                $this->deleteImages($pictures);
                 return;
             } else {
                 $rowId = pg_fetch_row($resource)[0];
 
-                if (sizeof($dth_holes) !== 0) {
-                    $dthQuery = "INSERT INTO public.tbl_mine_management_dth_holes(mine_management_main_table_id, dth_hole_number_id, dth_hole_depth) 
-VALUES ($1,$2,$3);";
+//                if (sizeof($dth_holes) !== 0) {
+//                    $dthQuery = "INSERT INTO public.tbl_mine_management_dth_holes(mine_management_main_table_id, dth_hole_number_id, dth_hole_depth)
+//VALUES ($1,$2,$3);";
 
-                    foreach ($dth_holes as $index => $value) {
-                        $dthRes = pg_query_params($dthQuery, array($rowId, $value->number, $value->depth));
-                        if (!$dthRes) {
-                            pg_query("ROLLBACK");
-                            echo json_encode(array("error" => "Problem in Inserting Data to DB!"));
-                            $this->deleteImage($pic1Paths[0]);
-                            $this->deleteImage($pic2Paths[0]);
-                            $this->deleteImage($pic3Paths[0]);
-                            return;
-                        }
-                    }
-                }
-
-                if (sizeof($diamond_wire_saw_cuts) !== 0) {
-                    $dwscQuery = "INSERT INTO public.tbl_mine_management_wire_saw_cuts(
-            management_main_table_id, diamond_wire_saw_cut_number_id, diamond_wire_saw_cut_length, diamond_wire_saw_cut_height_width)
-                    VALUES ($1, $2, $3, $4);";
-
-                    foreach ($diamond_wire_saw_cuts as $index => $value) {
-                        $dwscRes = pg_query_params($dwscQuery, array($rowId, $value->number, $value->length, $value->height));
-                        if(!$dwscRes){
-                            pg_query("ROLLBACK");
-                            echo json_encode(array("error" => "Problem in Inserting Data to DB!"));
-                            $this->deleteImage($pic1Paths[0]);
-                            $this->deleteImage($pic2Paths[0]);
-                            $this->deleteImage($pic3Paths[0]);
-                            return;
-                        }
-                    }
-                }
+//                    foreach ($dth_holes as $index => $value) {
+//                        $dthRes = pg_query_params($dthQuery, array($rowId, $value->number, $value->depth));
+//                        if (!$dthRes) {
+//                            pg_query("ROLLBACK");
+//                            echo json_encode(array("error" => "Problem in Inserting Data to DB!"));
+//                            $this->deleteImage($pic1Paths[0]);
+//                            $this->deleteImage($pic2Paths[0]);
+//                            $this->deleteImage($pic3Paths[0]);
+//                            return;
+//                        }
+//                    }
+//                }
 
                 pg_query("COMMIT");
-                echo json_encode(array("server_id" => $rowId));
-
+                echo json_encode(array("result" => "success", "server_id" => $rowId));
             }
-
-
         } catch (Exception $e) {
-            echo json_encode(array("error" => "Unknown Server Error!"));
+            echo json_encode(array("result" => "error", "msg" => "Unknown Server Error!"));
         }
     }
 
-    function deleteImage($fn)
+    function deleteImages($pics)
     {
-        try {
-            unlink($fn);
-        } catch (Exception $e) {
+        foreach ($pics as $pic) {
+            try {
+                unlink($pic);
+            } catch (Exception $e) {}
         }
     }
 
@@ -151,11 +195,11 @@ VALUES ($1,$2,$3);";
         $paths = array("", "");
         try {
             $ext = ".jpg";
-            $onlinePath = "http://localhost:81/noblemms/Android/images/noblemms/";
+            $onlinePath = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF'], 2) . "/images/";
             $now = DateTime::createFromFormat('U.u', microtime(true));
             $now = $now->format("Y-m-d_H_i_s.u");
             $fileName = $pictureName . "_" . $now . mt_rand() . $ext;
-            $target_file = "../images/noblemms/" . $fileName;
+            $target_file = "../images/" . $fileName;
             $onlinePath .= $fileName;
             if (move_uploaded_file($_FILES[$pictureName]["tmp_name"], $target_file)) {
                 $paths[0] = $target_file;
