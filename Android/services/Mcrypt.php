@@ -3,6 +3,7 @@ class MCrypt
 {
     private $iv = 'r82l5shgi4uzpejf'; #Same as in JAVA
     private $key = 'uhyhncoH7%pZe!3y'; #Same as in JAVA
+    private $MNULLVAL = "MNullVal";
     function __construct()
     {
     }
@@ -36,7 +37,8 @@ class MCrypt
         $decrypted = mdecrypt_generic($td, $code);
             mcrypt_generic_deinit($td);
         mcrypt_module_close($td);
-        return $isBinary ? trim($decrypted) : utf8_encode(trim($decrypted));
+        $trim = trim($decrypted);
+        return $isBinary ? $trim == $this->MNULLVAL ? null : $trim : utf8_encode(trim($decrypted));
     }
     protected function hex2bin($hexdata)
     {
