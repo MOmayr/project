@@ -6,4 +6,5 @@ Android/images/extras/*.jpg
 Android/services/connection.php
 Android/services/Mcrypt.php
 services/connection.php
+services/Mcrypt.php
 services/login.php
