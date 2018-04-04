@@ -1,0 +1,175 @@
+html {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+
+body {
+    height: auto;
+    /*min-height: 100%;*/
+    /*background-color: white;*/
+    scroll-behavior: smooth;
+}
+
+#header{
+    min-height: 60px;  max-height: 200px; padding: 1px;
+}
+#header>div>.header-image{
+    min-height: 60px;
+    height: 20vh;
+    max-height: 80px;
+}
+
+.div-margins {
+    margin-top: 5px;
+    margin-right: 3px;
+    margin-left: 3px
+}
+
+.div-sizes {
+    min-height: 300px;
+    border-radius: 2px;
+    height: 50vh;
+}
+.top-div-size{
+    min-height: 500px;
+    border-radius: 2px;
+    height: 80vh;
+}
+
+.scalable-div {
+    min-height: 200px;
+    height: auto
+}
+
+.padding {
+    padding: 5px
+}
+
+.border {
+    border: 1px solid black;
+}
+
+.toolbar {
+    height: 40px;
+    border-radius: 0;
+    /*background-color: #2F3D44;*/
+    /*color: white;*/
+}
+
+.main-buttons {
+    width: 100%;
+    margin: 1px;
+    padding: 4px;
+    height: 4vw;
+    text-transform: capitalize;
+    min-height: 50px;
+    max-height: 100px;
+    cursor: pointer;
+}
+
+.main-buttons-values {
+    width: 100%;
+    margin: 1px;
+    color: red;
+}
+
+.buttons-margin {
+    margin-top: 5px
+}
+
+#actionBtn{margin: 1px; padding: 2px; min-width: 0; text-transform: none}
+
+table#factorTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table#factorTable th{
+    border: 1px solid #b4b4b4;
+    text-align: center;
+    padding: 2px;
+}
+
+table#factorTable td {
+    border: 1px solid #b4b4b4;
+    text-align: center;
+    font-size: 13px;
+    padding: 5px
+}
+
+
+table#factorTable tr:nth-child(even){
+    background-color: #dddddd;
+}
+
+md-card {
+    margin: 0;
+    height: auto;
+    width: auto;
+    border-radius: 0;
+}
+
+md-content {
+    margin: 0;
+    height: 100%;
+    width: auto
+}
+
+md-select{
+    margin: 0;
+    padding: 0;
+}
+
+.md-tab{text-transform: none}
+
+.margin1 {
+    margin: 1px; padding: 1px;
+}
+
+.progress-md-button{
+     border-radius: 0; padding: 0;text-transform: none;background-color: lightgrey;
+}
+.progress-md-button:hover{
+    background-color: yellow;
+}
+
+#scrollToTopBtn {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    bottom: 20px;
+    right: 15px;
+    z-index: 99;
+    display: none;
+}
+
+@media (max-width: 599px) {
+    .div-sizes {
+        height: 50vh;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+    .div-sizes {
+        height: 50vh;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1279px) {
+    .div-sizes {
+        height: 55vh;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1919px) {
+    .div-sizes {
+        height: 50vh;
+    }
+
+}
+
+@media (min-width: 1920px) {
+    .div-sizes {
+        height: 30vh;
+    }
+}
