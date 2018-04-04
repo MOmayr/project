@@ -19,10 +19,10 @@ class CheckUser extends Connection
 
     function check($permUrl)
     {
-        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
-            session_unset();
-            session_destroy();
-        }
+//        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+//            session_unset();
+//            session_destroy();
+//        }
         $path = utils::getPath();
         $cookieKey = utils::getCookieKey();
         $varName = $path;

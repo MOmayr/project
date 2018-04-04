@@ -19,26 +19,26 @@ $check = $checkUser->check("%");
     <!--          rel="stylesheet">-->
     <link rel="stylesheet" href="styles/index.css">
 
-    <!--<script src="https://code.jquery.com/jquery-1.12.3.min.js"-->
-    <!--integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>-->
-
-    <script src="jslibs/jquery-1.8.3.js"></script>
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"
+    integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+<!---->
+<!--    <script src="jslibs/jquery-1.8.3.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular.min.js"></script>-->
+<!---->
     <script src="jslibs/AngularJS/angular-ui-router.js"></script>
 
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-animate.min.js"></script>
-
-    <!--    <script src="jslibs/AngularJS/angular-messages.min.js"></script>-->
-
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-aria.min.js"></script>
-
-    <!-- Angular Material Library -->
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-material.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-animate.min.js"></script>-->
+<!---->
+        <script src="jslibs/AngularJS/angular-messages.min.js"></script>
+<!---->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-aria.min.js"></script>-->
+<!---->
+<!--     Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-material.min.js"></script>-->
 
     <script type="text/javascript" src="scripts/index.js"></script>
 
