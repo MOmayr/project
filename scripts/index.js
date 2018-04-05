@@ -55,6 +55,18 @@ function loadStyle(href, entity, callback) {
     document.body.appendChild(link);
 }
 
+function convertResArrayToObj(arr, keys) {
+    var out = [];
+    angular.forEach(arr, function (val, index) {
+        var obj = {};
+        for (var i in val) {
+            obj[keys[i]] = val[i];
+        }
+        out[index] = obj;
+    });
+    return out;
+}
+
 // red
 // pink
 // purple

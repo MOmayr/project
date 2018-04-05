@@ -9,7 +9,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     $stateProvider
         .state('Excel Report', {
             url: '/ExcelReport',
-            // templateUrl: 'templates/dashboard/dashboard.php',
+            templateUrl: 'templates/excel/excel.php',
             onEnter: function () {
                 // console.log('state entered')
             },

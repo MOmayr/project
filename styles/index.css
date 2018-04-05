@@ -143,6 +143,11 @@ md-select{
     display: none;
 }
 
+.md-datepicker-input-container {
+    width: 0;
+    visibility: hidden;
+}
+
 @media (max-width: 599px) {
     .div-sizes {
         height: 50vh;

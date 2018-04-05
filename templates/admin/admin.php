@@ -11,14 +11,14 @@ if (!$check) return;
 
     <div flex="100" layout="row" layout-wrap>
 
-        <div flex="15">
+        <div flex="15" flex-sm="100" flex-xs="100">
             <!--        <div flex="25" ng-if="!$mdMedia('sm')">-->
             <div layout="column" flex class="div-margins">
                 <div layout="row">
                     <md-card class="toolbar" flex="100" layout="row" layout-align="center center"
                              md-colors="{background : 'primary'}">
                         TOC
-                        <md-tooltip>Table of Contents</md-tooltip>
+<!--                        <md-tooltip>Table of Contents</md-tooltip>-->
                     </md-card>
                 </div>
                 <md-whiteframe class="md-whiteframe-3dp top-div-size"
@@ -38,19 +38,19 @@ if (!$check) return;
                                 </md-button>
                             </div>
 
-                            <div flex="100" layout="row" layout-align="center center">
-                                <md-button flex="50" class="md-warn md-raised" ng-click="showUpdateUserDialog($event)"
-                                           style="text-transform: none" ng-disabled="!currentUser">
-                                    Delete User
-                                </md-button>
-                            </div>
+<!--                            <div flex="100" layout="row" layout-align="center center">-->
+<!--                                <md-button flex="50" class="md-warn md-raised" ng-click="showUpdateUserDialog($event)"-->
+<!--                                           style="text-transform: none" ng-disabled="!currentUser">-->
+<!--                                    Delete User-->
+<!--                                </md-button>-->
+<!--                            </div>-->
                         </div>
                     </md-content>
                 </md-whiteframe>
             </div>
         </div>
 
-        <div flex>
+        <div flex flex-sm="100" flex-xs="100">
             <div layout="column" flex class="div-margins">
                 <div layout="row">
                     <md-card class="toolbar" flex="100" layout="row" layout-align="center center"

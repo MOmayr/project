@@ -1,5 +1,6 @@
-app.controller('AdminController', function ($scope, $http, $mdDialog) {
+app.controller('AdminController', function ($scope, $http, $mdDialog, $rootScope) {
     console.log('admin controller loaded');
+    $rootScope.selectedTab = 0;
 
     $scope.selectUser = function (u) {
         // $scope.currentUser = undefined;
@@ -11,8 +12,12 @@ app.controller('AdminController', function ($scope, $http, $mdDialog) {
             method: 'GET',
             url: "services/admin/FetchUsers.php"
         }).then(function (value) {
+            if(value.data.error === "cout") {
+                location.reload();
+                return;
+            }
             $scope.users = value.data;
-            console.log($scope.users);
+            // console.log($scope.users);
         }, function (reason) {
             alert("Something is Wrong!");
         });
@@ -57,7 +62,7 @@ function UserDialogController($scope, $mdDialog, user, mode) {
         newUser.access = newUser === true ? "t" : "f";
         newUser = JSON.stringify($scope.user);
 
-        console.log(newUser);
+        // console.log(newUser);
         $.ajax({
             url: 'services/admin/CreateUpdateUser.php',
             type: "POST",
@@ -65,7 +70,11 @@ function UserDialogController($scope, $mdDialog, user, mode) {
             data: {mode: mode, user: newUser},
             async: false,
             success: function (response) {
-                console.log(response);
+                if(response.error === "cout") {
+                    location.reload();
+                    return;
+                }
+                // console.log(response);
                 if (parseInt(response)) {
                     $scope.showAlert('Success', 'User '+mode.replace(" ", "") + "d Successfully");
                     $scope.cancel();
@@ -73,7 +82,7 @@ function UserDialogController($scope, $mdDialog, user, mode) {
                 }
             },
             error: function (response) {
-                console.log(response);
+                // console.log(response);
             }
         });
     };
