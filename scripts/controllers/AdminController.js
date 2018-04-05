@@ -53,11 +53,16 @@ function UserDialogController($scope, $mdDialog, user, mode) {
     $scope.mode = mode;
 
     $scope.createUpdateUser = function(){
+        var newUser = $scope.user;
+        newUser.access = newUser === true ? "t" : "f";
+        newUser = JSON.stringify($scope.user);
+
+        console.log(newUser);
         $.ajax({
             url: 'services/admin/CreateUpdateUser.php',
             type: "POST",
             dataType: 'json',
-            data: {mode: mode, user: JSON.stringify($scope.user)},
+            data: {mode: mode, user: newUser},
             async: false,
             success: function (response) {
                 console.log(response);

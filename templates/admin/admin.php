@@ -84,7 +84,7 @@ if (!$check) return;
                                     <td>{{u.mobile_number}}</td>
                                     <td>{{u.cnic}}</td>
                                     <td>{{u.address}}</td>
-                                    <td>{{u.access ? 'Yes' : 'No'}}</td>
+                                    <td>{{u.access === "t" ? 'Yes' : 'No'}}</td>
                                     <td>{{u.imei}}</td>
                                     <td>{{u.district}}</td>
                                     <td>{{u.circle}}</td>
