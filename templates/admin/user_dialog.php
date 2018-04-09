@@ -66,7 +66,7 @@
                     <tr>
                         <th>Access</th>
                         <td>
-                            <md-checkbox ng-checked="user.access" ng-model="user.access">
+                            <md-checkbox ng-model="user.access">
                                 {{user.access ? 'Allowed' : 'Blocked'}}
                             </md-checkbox>
                         </td>

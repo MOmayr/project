@@ -10,35 +10,34 @@ $check = $checkUser->check("%");
     <meta charset="UTF-8">
     <title>UHY - UIPT TPV</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <link rel="stylesheet" href="jslibs/AngularJS/css/angular-material.min.css">
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.css">-->
+<!--    <link rel="stylesheet" href="jslibs/AngularJS/css/angular-material.min.css">-->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.css">
 
-    <!--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-    <!--    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic"-->
-    <!--          rel="stylesheet">-->
+    <script>
+        var roles = <?php echo json_encode($check);?>;
+    </script>
     <link rel="stylesheet" href="styles/index.css">
 
-<!--    <script src="https://code.jquery.com/jquery-1.12.3.min.js"-->
-<!--    integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>-->
+        <script src="https://code.jquery.com/jquery-1.12.3.min.js"
+        integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
 
-    <script src="jslibs/jquery-1.12.3.min.js"></script>
-<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular.min.js"></script>
+<!--    <script src="jslibs/jquery-1.12.3.min.js"></script>-->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular.min.js"></script>-->
 
     <script src="jslibs/AngularJS/angular-ui-router.js"></script>
-<!---->
-<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-animate.min.js"></script>
+    <!---->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-animate.min.js"></script>-->
 
-<!--        <script src="jslibs/AngularJS/angular-messages.min.js"></script>-->
+            <script src="jslibs/AngularJS/angular-messages.min.js"></script>
 
-<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-aria.min.js"></script>-->
 
-<!--     Angular Material Library -->
-<!--    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>-->
-    <script src="jslibs/AngularJS/angular-material.min.js"></script>
+    <!--     Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>
+<!--    <script src="jslibs/AngularJS/angular-material.min.js"></script>-->
 
     <script type="text/javascript" src="scripts/index.js"></script>
 
@@ -91,9 +90,8 @@ $check = $checkUser->check("%");
     echo '
 <div ng-controller="MainController">
 <md-tabs md-dynamic-height md-border-bottom md-selected="$root.selectedTab">
-    <md-tab ui-sref="Admin" label="Admin">
+    <md-tab ui-sref="{{r.role_name}}" label="{{r.role_name}}" ng-repeat="r in roles">
     </md-tab>
-    <md-tab ui-sref="Excel Report" label="Excel Report"></md-tab>
 </md-tabs>
 </div>';
 } ?>

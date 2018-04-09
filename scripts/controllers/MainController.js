@@ -1,4 +1,10 @@
 app.controller('MainController', function ($scope, $state) {
+    $scope.roles = roles;
+    if(roles instanceof Array){
+        $state.go(roles[0].role_name);
+    }
+    console.log($scope.roles);
+
     $scope.changeState = function(path) {
         console.log(path);
         $state.go(path);
@@ -26,9 +32,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             onExit: function () {
                 // console.log('state exit');
             }
+        })
+        .state('Dashboard', {
+            url: '/Dashboard',
+            templateUrl: 'templates/dashboard/dashboard.php',
+            onEnter: function () {
+                // console.log('state entered')
+            },
+            onExit: function () {
+                // console.log('state exit');
+            }
         });
-
-    $urlRouterProvider.otherwise('/Admin');
+    // $urlRouterProvider.otherwise(roles[0].role_name);
 }]);
 
 app.directive('myNumeric', function () {

@@ -1,9 +1,13 @@
 var csv;
-app.controller('ExcelController', function ($scope, $http, $mdDialog, $rootScope) {
+app.controller('ExcelController', function ($scope, $http, $mdDialog, $rootScope, $state) {
     loadScript("scripts/getcsv.js", csv, function () {
-
+        csv = true;
     });
-    $rootScope.selectedTab = 1;
+
+    $.each(roles, function (i, obj) {
+        // console.log(obj);
+        if(obj.role_name === $state.current.name) $rootScope.selectedTab = i;
+    });
 
     $scope.startDate = new Date();
     $scope.endDate = new Date();

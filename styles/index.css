@@ -8,6 +8,8 @@ body {
     /*min-height: 100%;*/
     /*background-color: white;*/
     scroll-behavior: smooth;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #header{
@@ -42,7 +44,7 @@ body {
 }
 
 .padding {
-    padding: 5px
+    padding: 2px
 }
 
 .border {
@@ -127,7 +129,7 @@ md-select{
 }
 
 .progress-md-button{
-     border-radius: 0; padding: 0;text-transform: none;background-color: lightgrey;
+     border-radius: 0; padding: 0;text-transform: none; margin: 1px; height: auto; width: 100%;
 }
 .progress-md-button:hover{
     background-color: yellow;

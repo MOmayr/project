@@ -1,10 +1,15 @@
-app.controller('AdminController', function ($scope, $http, $mdDialog, $rootScope) {
+app.controller('AdminController', function ($scope, $http, $mdDialog, $rootScope, $state) {
     console.log('admin controller loaded');
-    $rootScope.selectedTab = 0;
+
+    $.each(roles, function (i, obj) {
+        // console.log(obj);
+        if(obj.role_name === $state.current.name) $rootScope.selectedTab = i;
+    });
 
     $scope.selectUser = function (u) {
-        // $scope.currentUser = undefined;
-        $scope.currentUser = u;
+        $scope.currentUser = angular.copy(u);
+        $scope.currentUser.access = u.access === "t";
+        // console.log($scope.currentUser);
     };
 
     $scope.getUsers = function () {
@@ -59,7 +64,7 @@ function UserDialogController($scope, $mdDialog, user, mode) {
 
     $scope.createUpdateUser = function(){
         var newUser = $scope.user;
-        newUser.access = newUser === true ? "t" : "f";
+        newUser.access = newUser.access === true ? "t" : "f";
         newUser = JSON.stringify($scope.user);
 
         // console.log(newUser);
@@ -74,11 +79,12 @@ function UserDialogController($scope, $mdDialog, user, mode) {
                     location.reload();
                     return;
                 }
-                // console.log(response);
+                console.log(response);
                 if (parseInt(response)) {
                     $scope.showAlert('Success', 'User '+mode.replace(" ", "") + "d Successfully");
                     $scope.cancel();
                     $scope.getUsers();
+                    $scope.currentUser = undefined;
                 }
             },
             error: function (response) {

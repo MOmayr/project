@@ -30,7 +30,7 @@ class CheckUser extends Connection
 //            return $_SESSION[$varName];
 //        }
         if (isset($_COOKIE[$cookieKey])) {
-            $sqlCheck = "select distinct on(p.perm_url) u.username, r.role_name, p.perm_desc, p.perm_url, p.role_desc from web.tbl_sessions s
+            $sqlCheck = "select  distinct on(r.role_name)r.role_name , u.username from web.tbl_sessions s
 left outer join web.tbl_users u on s.user_id = u.id
 left outer join web.tbl_user_role ur on s.user_id = ur.user_id
 left outer join web.tbl_roles r on ur.role_id = r.role_id
@@ -41,8 +41,6 @@ where s.session_id = $1 and p.perm_url like $2;";
             if ($resultCheck == null) {
                 $date_of_expiry = time() - 6000;
                 setcookie($cookieKey, "anonymous", $date_of_expiry, $path);
-//                $logout = new logout();
-//                header("location: index.php");
                 return false;
             } else {
 //                $_SESSION['LAST_ACTIVITY'] = time();

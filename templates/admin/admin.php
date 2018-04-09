@@ -76,7 +76,7 @@ if (!$check) return;
                                     <th>Circle</th>
                                 </tr>
                                 <tr ng-repeat="u in users" style="cursor: pointer" ng-click="selectUser(u)"
-                                    md-colors="u === currentUser? {background:  'primary'} : ''">
+                                    md-colors="u.id === currentUser.id ? {background:  'primary'} : ''">
                                     <td>{{$index+1}}</td>
                                     <td>{{u.username}}</td>
                                     <td>{{u.password}}</td>
