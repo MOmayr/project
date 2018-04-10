@@ -163,7 +163,7 @@ class ReceiveData extends Connection
                 if (sizeof($extra_pictures) !== 0) {
                     $extraPicturesQuery = "INSERT INTO public.tbl_extra_pictures(
 	base_android_data_key, datetime, pic_path, description, index)
-	VALUES ($1, $2, $3, $4, $5);";
+	VALUES ($1, (select substring ($2, 1,19))::timestamp, $3, $4, $5);";
 
                     foreach ($extra_pictures as $index => $value) {
                         $extraPicPaths = $this->getImage("image" . $index, $extraImgFolder);
