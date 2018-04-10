@@ -132,7 +132,7 @@ if (!$check) return;
                     </md-card>
                 </div>
                 <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp div-sizes "
-                               style="padding-top: 1px; overflow-x: auto">
+                               style="padding-top: 1px; overflow-x: auto; overflow-y: hidden">
 <!--                    <div id="propertyCountChart"></div>-->
                 </md-whiteframe>
             </div>
@@ -142,11 +142,11 @@ if (!$check) return;
             <div layout="column">
                 <div class="toolbar" layout="row">
                     <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">
-                        Assessed Property Types
+                        Assessed / Unassessed Properties
                     </md-card>
                 </div>
                 <md-whiteframe id="propertyTypeChart" class="md-whiteframe-3dp div-sizes "
-                               style="padding-top: 1px;overflow-x: auto">
+                               style="padding-top: 1px;overflow-x: auto;overflow-y: hidden">
                     <div></div>
                 </md-whiteframe>
             </div>
@@ -162,7 +162,7 @@ if (!$check) return;
                     </md-card>
                 </div>
                 <md-whiteframe id="propertyOccStatus" class="md-whiteframe-3dp div-sizes "
-                               style="padding-top: 1px; overflow-x: auto">
+                               style="padding-top: 1px; overflow-x: auto;overflow-y: hidden">
                     <!--                    <div id="propertyCountChart"></div>-->
                 </md-whiteframe>
             </div>
@@ -176,7 +176,7 @@ if (!$check) return;
                     </md-card>
                 </div>
                 <md-whiteframe id="landUsageChart" class="md-whiteframe-3dp div-sizes "
-                               style="padding-top: 1px;overflow-x: auto; ">
+                               style="padding-top: 1px;overflow-x: auto; overflow-y: hidden">
                     <div></div>
                 </md-whiteframe>
             </div>

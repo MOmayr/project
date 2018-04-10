@@ -1,11 +1,23 @@
-var highchart, exporting;
+var highchart, exporting, boost;
 var GREEN = "green";
 var BLUE = "blue";
 var RED = "red";
 var ORANGE = "orange";
+var BARCHART = "column";
+var PIECHART = "pie";
 app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootScope, $state) {
 
-    $scope.getAllStats = function () {
+    $scope.dropdownChange = function (entity, val) {
+        if (entity === "district") $scope.circle = "All";
+        console.log($scope.district, $scope.circle);
+        if ($scope.district === "All" && $scope.circle === "All") {
+            $scope.getAllStats(500);
+        } else if ($scope.district !== "All" && $scope.circle === "All") {
+            $scope.getDistrictStats(700);
+        }
+    };
+
+    $scope.getAllStats = function (interval) {
         $http({
             method: 'GET',
             url: "services/dashboard/GetAllStats.php"
@@ -15,47 +27,91 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
                 return;
             }
             var data = value.data;
-            if (data.length > 0) {
-                var all = {};
-                var firstObj = data[0];
-                Object.keys(firstObj).forEach(function (k, i) {
-                    all[k] = [];
-                });
-
-                data.forEach(function (obj, i) {
-                    Object.keys(obj).forEach(function (key, index) {
-                        all[key].push(obj[key]);
-                    });
-                });
-                console.log(all);
-                var seriesProperty = [];
-                seriesProperty.push({name: "Total Properties", data: all.total});
-                seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
-                seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
-                generateBarChart('propertyCountChart', all.district_name, seriesProperty, [BLUE, GREEN, RED]);
-
-                var seriesPrType = [];
-                seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
-                seriesPrType.push({name: "Open Plots", data: all.openplot});
-                generateBarChart('propertyTypeChart', all.district_name, seriesPrType, [GREEN, BLUE]);
-
-                var seriesOccStatus = [];
-                seriesOccStatus.push({name: "Self", data: all.self});
-                seriesOccStatus.push({name: "Rented", data: all.rented});
-                seriesOccStatus.push({name: "Both", data: all.both});
-                generateBarChart('propertyOccStatus', all.district_name, seriesOccStatus, [GREEN, BLUE, ORANGE]);
-
-                var seriesLandUsage = [];
-                seriesLandUsage.push({name: "Commercial", data: all.commercial});
-                seriesLandUsage.push({name: "Residential", data: all.residential});
-                seriesLandUsage.push({name: "Special", data: all.special});
-                generateBarChart('landUsageChart', all.district_name, seriesLandUsage, [GREEN, BLUE, ORANGE]);
-
-            }
+            generateAllOrDistrictChart(data, interval);
         }, function (reason) {
             alert("Something is Wrong!");
         });
     };
+
+    $scope.getDistrictStats = function (interval) {
+        $http({
+            method: 'GET',
+            url: "services/dashboard/GetDistrictStats.php?district=" + $scope.district
+        }).then(function (value) {
+            if (value.data.error === "cout") {
+                location.reload();
+                return;
+            }
+            var data = value.data;
+            console.log(data);
+            generateAllOrDistrictChart(data, interval);
+        }, function (reason) {
+            alert("Something is Wrong!");
+        });
+    };
+
+    function generateAllOrDistrictChart(data, interval) {
+        if (data.length > 0) {
+            var all = {};
+            var firstObj = data[0];
+            Object.keys(firstObj).forEach(function (k, i) {
+                all[k] = [];
+            });
+
+            data.forEach(function (obj, i) {
+                Object.keys(obj).forEach(function (key, index) {
+                    all[key].push(obj[key]);
+                });
+            });
+            console.log(all);
+            setTimeout(function () {
+                var seriesProperty = [];
+                seriesProperty.push({name: "Total Properties", data: all.total});
+                seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
+                seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
+                generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], BARCHART);
+
+                setTimeout(function () {
+                    // var seriesPrType = [];
+                    // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
+                    // seriesPrType.push({name: "Open Plots", data: all.openplot});
+                    // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
+
+                    // var seriesPrType = [];
+                    var seriesPrType = [{
+                        name: 'Properties',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Assessed',
+                            y: sum(all.surveyed)
+                        }, {
+                            name: 'Unassessed',
+                            y: sum(all.unassessed)
+                        }]
+                    }];
+                    // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
+                    // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
+                    generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
+
+                    setTimeout(function () {
+                        var seriesOccStatus = [];
+                        seriesOccStatus.push({name: "Self", data: all.self});
+                        seriesOccStatus.push({name: "Rented", data: all.rented});
+                        seriesOccStatus.push({name: "Both", data: all.both});
+                        generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], BARCHART);
+
+                        setTimeout(function () {
+                            var seriesLandUsage = [];
+                            seriesLandUsage.push({name: "Commercial", data: all.commercial});
+                            seriesLandUsage.push({name: "Residential", data: all.residential});
+                            seriesLandUsage.push({name: "Special", data: all.special});
+                            generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], BARCHART);
+                        }, interval);
+                    }, interval);
+                }, interval)
+            }, 0);
+        }
+    }
 
     // loadScript("jslibs/Highcharts/highcharts.js", highchart, function () {});
     loadScript("https://code.highcharts.com/4.2.3/highcharts.js", highchart, function () {
@@ -72,19 +128,11 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
         if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
     });
 
-    $scope.dropdownChange = function (entity, val) {
-        if (entity === "district") $scope.circle = "All";
-        console.log($scope.district, $scope.circle);
-        if($scope.district==="All" && $scope.circle === "All"){
-            $scope.getAllStats();
-        }
-    };
-
-    function generateBarChart(div, xCats, series, colors) {
+    function generateBarChart(div, xCats, series, colors, chartType) {
         return new Highcharts.chart(div, {
             chart: {
-                type: 'column',
-                width: xCats.length > 10 ? xCats.length*70 : null
+                type: chartType,
+                width: chartType === "column" ? xCats.length > 10 ? xCats.length * 70 : null : null
             },
             title: {
                 text: ''
@@ -117,7 +165,15 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
                     pointPadding: 0.2,
                     borderWidth: 0
                 },
-                series:{
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                },
+                series: {
                     dataLabels: {
                         enabled: true,
                         format: '{point.y}'
@@ -149,3 +205,11 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
         });
     };
 });
+
+function sum(arr) {
+    var sum = 0;
+    arr.forEach(function (elem, i) {
+        sum += elem;
+    });
+    return sum;
+}
