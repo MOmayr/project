@@ -14,6 +14,7 @@ class ReceiveData extends Connection
     {
 
         $extraImgFolder = "/images/extras/";
+        $errLogFile = "../error_log.log";
         try {
 //            error_reporting(E_ALL);
             $mcrypt = new MCrypt();
@@ -151,6 +152,7 @@ class ReceiveData extends Connection
                 $excise_officer_cnic, $is_mock, "Point($lng $lat)"));
 
             if (!$resource) {
+                error_log("\n\n".pg_last_error(), 3, $errLogFile);
                 pg_query("ROLLBACK");
                 echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                 $this->deleteImages($pictures);
@@ -175,6 +177,7 @@ class ReceiveData extends Connection
 
                         $extraPictureRes = pg_query_params($extraPicturesQuery, array($rowId, $value->datetime, $extraPicPaths[1], $value->desc, $value->index));
                         if (!$extraPictureRes) {
+                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -192,6 +195,7 @@ class ReceiveData extends Connection
                         $extraBasementsRes = pg_query_params($extraBasementsQuery, array($rowId, $value->occ_status, (double)$value->self_area,
                             (double)$value->rented_area, $value->index));
                         if(!$extraBasementsRes){
+                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -211,6 +215,7 @@ class ReceiveData extends Connection
                         $extraStoreysRes = pg_query_params($extraStoreysQuery, array($rowId, $value->occ_status, (double)$value->self_area,
                             (double)$value->rented_area, $value->index));
                         if(!$extraStoreysRes){
+                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -227,6 +232,7 @@ class ReceiveData extends Connection
             }
         } catch (Exception $e) {
             echo json_encode(array("result" => "error", "msg" => "Unknown Server Error!"));
+            error_log($e, 3, $errLogFile);
         }
     }
 

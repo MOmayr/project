@@ -8,3 +8,4 @@ Android/services/Mcrypt.php
 services/connection.php
 services/Mcrypt.php
 services/login.php
+Android/error_log.log
