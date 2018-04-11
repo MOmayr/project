@@ -14,6 +14,8 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
             $scope.getAllStats(500);
         } else if ($scope.district !== "All" && $scope.circle === "All") {
             $scope.getDistrictStats(700);
+        }else if($scope.district !== "All" && $scope.circle !== "All"){
+            $scope.getCircleStats(400);
         }
     };
 
@@ -26,8 +28,9 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
                 location.reload();
                 return;
             }
-            var data = value.data;
-            generateAllOrDistrictChart(data, interval);
+            // var data = value.data;
+            var all = performInitials(value.data);
+            generateAllOrDistrictChart(all, interval);
         }, function (reason) {
             alert("Something is Wrong!");
         });
@@ -42,75 +45,169 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
                 location.reload();
                 return;
             }
-            var data = value.data;
-            console.log(data);
-            generateAllOrDistrictChart(data, interval);
+            // var data = value.data;
+            var all = performInitials(value.data);
+            generateAllOrDistrictChart(all, interval);
         }, function (reason) {
             alert("Something is Wrong!");
         });
     };
 
-    function generateAllOrDistrictChart(data, interval) {
-        if (data.length > 0) {
-            var all = {};
-            var firstObj = data[0];
-            Object.keys(firstObj).forEach(function (k, i) {
-                all[k] = [];
-            });
+    $scope.getCircleStats = function (interval) {
+        $http({
+            method: 'GET',
+            url: "services/dashboard/GetCircleStats.php?district=" + $scope.district + "&circle="+$scope.circle.name
+        }).then(function (value) {
+            if (value.data.error === "cout") {
+                location.reload();
+                return;
+            }
+            // var data = value.data;
+            var all = performInitials(value.data);
+            generateCircleChart(all, interval);
+        }, function (reason) {
+            alert("Something is Wrong!");
+        });
+    };
 
-            data.forEach(function (obj, i) {
-                Object.keys(obj).forEach(function (key, index) {
-                    all[key].push(obj[key]);
-                });
-            });
-            console.log(all);
+    function generateAllOrDistrictChart(all, interval) {
+
+        setTimeout(function () {
+            var seriesProperty = [];
+            seriesProperty.push({name: "Total Properties", data: all.total});
+            seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
+            seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], BARCHART);
+
             setTimeout(function () {
-                var seriesProperty = [];
-                seriesProperty.push({name: "Total Properties", data: all.total});
-                seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
-                seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
-                generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], BARCHART);
+                // var seriesPrType = [];
+                // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
+                // seriesPrType.push({name: "Open Plots", data: all.openplot});
+                // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
+
+                // var seriesPrType = [];
+                var seriesPrType = [{
+                    name: 'Properties',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Assessed',
+                        y: sum(all.surveyed)
+                    }, {
+                        name: 'Unassessed',
+                        y: sum(all.unassessed)
+                    }]
+                }];
+                // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
+                // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
 
                 setTimeout(function () {
-                    // var seriesPrType = [];
-                    // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
-                    // seriesPrType.push({name: "Open Plots", data: all.openplot});
-                    // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
-
-                    // var seriesPrType = [];
-                    var seriesPrType = [{
-                        name: 'Properties',
-                        colorByPoint: true,
-                        data: [{
-                            name: 'Assessed',
-                            y: sum(all.surveyed)
-                        }, {
-                            name: 'Unassessed',
-                            y: sum(all.unassessed)
-                        }]
-                    }];
-                    // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
-                    // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                    generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
+                    var seriesOccStatus = [];
+                    seriesOccStatus.push({name: "Self", data: all.self});
+                    seriesOccStatus.push({name: "Rented", data: all.rented});
+                    seriesOccStatus.push({name: "Both", data: all.both});
+                    generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], BARCHART);
 
                     setTimeout(function () {
-                        var seriesOccStatus = [];
-                        seriesOccStatus.push({name: "Self", data: all.self});
-                        seriesOccStatus.push({name: "Rented", data: all.rented});
-                        seriesOccStatus.push({name: "Both", data: all.both});
-                        generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], BARCHART);
-
-                        setTimeout(function () {
-                            var seriesLandUsage = [];
-                            seriesLandUsage.push({name: "Commercial", data: all.commercial});
-                            seriesLandUsage.push({name: "Residential", data: all.residential});
-                            seriesLandUsage.push({name: "Special", data: all.special});
-                            generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], BARCHART);
-                        }, interval);
+                        var seriesLandUsage = [];
+                        seriesLandUsage.push({name: "Commercial", data: all.commercial});
+                        seriesLandUsage.push({name: "Residential", data: all.residential});
+                        seriesLandUsage.push({name: "Special", data: all.special});
+                        generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], BARCHART);
                     }, interval);
-                }, interval)
-            }, 0);
-        }
+                }, interval);
+            }, interval)
+        }, 0);
+    }
+
+    function generateCircleChart(all, interval) {
+
+        setTimeout(function () {
+            var seriesProperty = [{
+                name : "Properties",
+                colorByPoint: true,
+                data : []
+            }];
+            seriesProperty[0].data.push({name: "Total Properties", y: sum(all.total)});
+            seriesProperty[0].data.push({name: "Surveyed Properties", y: sum(all.surveyed)});
+            seriesProperty[0].data.push({name: "Un-Surveyed Properties", y: sum(all.unsurveyed)});
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], PIECHART);
+
+            setTimeout(function () {
+                // var seriesPrType = [];
+                // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
+                // seriesPrType.push({name: "Open Plots", data: all.openplot});
+                // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
+
+                // var seriesPrType = [];
+                var seriesPrType = [{
+                    name: 'Survey Status',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Assessed',
+                        y: sum(all.surveyed)
+                    }, {
+                        name: 'Unassessed',
+                        y: sum(all.unassessed)
+                    }]
+                }];
+                // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
+                // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
+
+                setTimeout(function () {
+                    var seriesOccStatus = [{
+                        name : "Occupation Status",
+                        colorByPoint: true,
+                        data : []
+                    }];
+                    seriesOccStatus[0].data.push({name: "Self", y: sum(all.self)});
+                    seriesOccStatus[0].data.push({name: "Rented", y: sum(all.rented)});
+                    seriesOccStatus[0].data.push({name: "Both", y: sum(all.both)});
+                    generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], PIECHART);
+
+                    setTimeout(function () {
+                        var seriesLandUsage = [{
+                            name : "Land-use Status",
+                            colorByPoint: true,
+                            data : []
+                        }];
+                        seriesLandUsage[0].data.push({name: "Commercial", y: sum(all.commercial)});
+                        seriesLandUsage[0].data.push({name: "Residential", y: sum(all.residential)});
+                        seriesLandUsage[0].data.push({name: "Special", y: sum(all.special)});
+                        generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], PIECHART);
+                    }, interval);
+                }, interval);
+            }, interval)
+        }, 0);
+    }
+
+    function performInitials(data) {
+        var all = {};
+        var firstObj = data[0];
+        Object.keys(firstObj).forEach(function (k, i) {
+            all[k] = [];
+        });
+
+        data.forEach(function (obj, i) {
+            Object.keys(obj).forEach(function (key, index) {
+                all[key].push(obj[key]);
+            });
+        });
+        console.log(all);
+        $scope.total = sum(all.total);
+        $scope.both = sum(all.both);
+        $scope.commercial = sum(all.commercial);
+        $scope.land = sum(all.land);
+        $scope.openplot = sum(all.openplot);
+        $scope.rented = sum(all.rented);
+        $scope.residential = sum(all.residential);
+        $scope.self = sum(all.self);
+        $scope.special = sum(all.special);
+        $scope.surveyed = sum(all.surveyed);
+        $scope.unassessed = sum(all.unassessed);
+        $scope.unsurveyed = sum(all.unsurveyed);
+        return all;
     }
 
     // loadScript("jslibs/Highcharts/highcharts.js", highchart, function () {});

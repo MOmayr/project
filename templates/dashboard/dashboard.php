@@ -38,22 +38,22 @@ if (!$check) return;
         <div flex="60" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">
             <div flex="100" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Total Properties : {{}}
+                    Total Properties : {{total}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Surveyed :
+                    Surveyed : {{surveyed}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Un-Surveyed :
+                    Un-Surveyed : {{unsurveyed}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-accent md-raised progress-md-button">
-                    Unassessed :
+                    Unassessed : {{unassessed}}
                 </md-button>
             </div>
         </div>
@@ -65,12 +65,12 @@ if (!$check) return;
             </div>
             <div flex="50" flex="100" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Land :
+                    Land : {{land}}
                 </md-button>
             </div>
             <div flex="50" flex="100" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Open Plot :
+                    Open Plot : {{openplot}}
                 </md-button>
             </div>
         </div>
@@ -85,39 +85,39 @@ if (!$check) return;
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Self :
+                    Self : {{self}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Rented :
+                    Rented : {{rented}}
                 </md-button>
             </div>
             <div flex layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Both :
+                    Both : {{both}}
                 </md-button>
             </div>
         </div>
         <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">
             <div flex="100" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Occupation Status
+                    Land-use Status
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Self :
+                    Commercial : {{commercial}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Rented :
+                    Residential : {{residential}}
                 </md-button>
             </div>
             <div flex="33" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Both :
+                    Special Properties : {{special}}
                 </md-button>
             </div>
         </div>
