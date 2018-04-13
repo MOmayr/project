@@ -59,6 +59,9 @@ class ReceiveData extends Connection
             $rented_since = $mcrypt->decrypt($_REQUEST['rented_since']);
             $date_of_construction = $mcrypt->decrypt($_REQUEST['date_of_construction']);
             $date_of_last_remodeling = $mcrypt->decrypt($_REQUEST['date_of_last_remodeling']);
+            if ($date_of_last_remodeling == "0") {
+                $date_of_last_remodeling = null;
+            }
             $landuse_commercial = $mcrypt->decrypt($_REQUEST['landuse_commercial']);
             $landuse_residential = $mcrypt->decrypt($_REQUEST['landuse_residential']);
             $landuse_special = $mcrypt->decrypt($_REQUEST['landuse_special']);
@@ -152,7 +155,7 @@ class ReceiveData extends Connection
                 $excise_officer_cnic, $is_mock, "Point($lng $lat)"));
 
             if (!$resource) {
-                error_log("\n\n".pg_last_error(), 3, $errLogFile);
+                error_log("\n\n" . pg_last_error(), 3, $errLogFile);
                 pg_query("ROLLBACK");
                 echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                 $this->deleteImages($pictures);
@@ -177,7 +180,7 @@ class ReceiveData extends Connection
 
                         $extraPictureRes = pg_query_params($extraPicturesQuery, array($rowId, $value->datetime, $extraPicPaths[1], $value->desc, $value->index));
                         if (!$extraPictureRes) {
-                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
+                            error_log("\n\n" . pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -191,11 +194,11 @@ class ReceiveData extends Connection
 	base_android_data_key, occ_status, self_area, rented_area, index)
 	VALUES ($1, (select id from tbl_occupation_type where occupation_type = $2), $3, $4, $5);";
 
-                    foreach ($basements as $index => $value){
+                    foreach ($basements as $index => $value) {
                         $extraBasementsRes = pg_query_params($extraBasementsQuery, array($rowId, $value->occ_status, (double)$value->self_area,
                             (double)$value->rented_area, $value->index));
-                        if(!$extraBasementsRes){
-                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
+                        if (!$extraBasementsRes) {
+                            error_log("\n\n" . pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -211,11 +214,11 @@ class ReceiveData extends Connection
 	base_android_data_key, occ_status, self_area, rented_area, index)
 	VALUES ($1, (select id from tbl_occupation_type where occupation_type = $2), $3, $4, $5);";
 
-                    foreach ($storeys as $index => $value){
+                    foreach ($storeys as $index => $value) {
                         $extraStoreysRes = pg_query_params($extraStoreysQuery, array($rowId, $value->occ_status, (double)$value->self_area,
                             (double)$value->rented_area, $value->index));
-                        if(!$extraStoreysRes){
-                            error_log("\n\n".pg_last_error(), 3, $errLogFile);
+                        if (!$extraStoreysRes) {
+                            error_log("\n\n" . pg_last_error(), 3, $errLogFile);
                             pg_query("ROLLBACK");
                             echo json_encode(array("result" => "error", "msg" => "Problem in Inserting Data to DB!"));
                             $this->deleteImages($pictures);
@@ -224,7 +227,6 @@ class ReceiveData extends Connection
                     }
 
                 }
-
 
 
                 pg_query("COMMIT");
