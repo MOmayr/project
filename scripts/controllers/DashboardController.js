@@ -5,7 +5,12 @@ var RED = "red";
 var ORANGE = "orange";
 var BARCHART = "column";
 var PIECHART = "pie";
-app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootScope, $state) {
+app.controller('DashboardController', function ($scope, $http, $rootScope, $state) {
+
+    $.each(roles, function (i, obj) {
+        // console.log(obj);
+        if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
+    });
 
     $scope.dropdownChange = function (entity, val) {
         if (entity === "district") $scope.circle = "All";
@@ -220,10 +225,6 @@ app.controller('DashboardController', function ($scope, $http, $mdDialog, $rootS
     });
     // loadScript("jslibs/Highcharts/exporting.js", exporting, function () {});
 
-    $.each(roles, function (i, obj) {
-        // console.log(obj);
-        if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
-    });
 
     function generateBarChart(div, xCats, series, colors, chartType) {
         return new Highcharts.chart(div, {

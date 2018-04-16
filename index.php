@@ -10,40 +10,46 @@ $check = $checkUser->check("%");
     <meta charset="UTF-8">
     <title>UHY - UIPT TPV</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <!--    <link rel="stylesheet" href="jslibs/AngularJS/css/angular-material.min.css">-->
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.css">
+        <link rel="stylesheet" href="jslibs/AngularJS/css/angular-material.min.css">
+<!--    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.css">-->
 
     <script>
         var roles = <?php echo json_encode($check);?>;
     </script>
     <link rel="stylesheet" href="styles/index.css">
 
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"
-            integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+<!--    <script src="https://code.jquery.com/jquery-1.12.3.min.js"-->
+<!--            integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>-->
 
-    <!--    <script src="jslibs/jquery-1.12.3.min.js"></script>-->
+        <script src="jslibs/jquery-1.12.3.min.js"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-    <!--    <script src="jslibs/AngularJS/angular.min.js"></script>-->
+<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>-->
+        <script src="jslibs/AngularJS/angular.min.js"></script>
     <!---->
     <script src="jslibs/AngularJS/angular-ui-router.js"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>
-    <!--    <script src="jslibs/AngularJS/angular-animate.min.js"></script>-->
+<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>-->
+        <script src="jslibs/AngularJS/angular-animate.min.js"></script>
     <!---->
     <!--            <script src="jslibs/AngularJS/angular-messages.min.js"></script>-->
     <!---->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>
-    <!--    <script src="jslibs/AngularJS/angular-aria.min.js"></script>-->
+<!--    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>-->
+        <script src="jslibs/AngularJS/angular-aria.min.js"></script>
 
     <!--     Angular Material Library -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>
-    <!--    <script src="jslibs/AngularJS/angular-material.min.js"></script>-->
+<!--    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.7/angular-material.min.js"></script>-->
+        <script src="jslibs/AngularJS/angular-material.min.js"></script>
 
     <script type="text/javascript" src="scripts/index.js"></script>
 
     <?php if ($check) {
         echo '<script src="scripts/controllers/controllers.php"></script>';
+        echo '<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/lodash.min.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/jszip.min.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/excel-builder.dist.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.4.6/ui-grid.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.4.6/ui-grid.min.css" type="text/css">';
 
     } else {
 

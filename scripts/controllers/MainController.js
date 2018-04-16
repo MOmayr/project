@@ -33,6 +33,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                 // console.log('state exit');
             }
         })
+        .state('Data Viewer', {
+            url: '/DataViewer',
+            templateUrl: 'templates/viewer/viewer.php',
+            onEnter: function () {
+                // console.log('state entered')
+            },
+            onExit: function () {
+                // console.log('state exit');
+            }
+        })
         .state('Dashboard', {
             url: '/Dashboard',
             templateUrl: 'templates/dashboard/dashboard.php',

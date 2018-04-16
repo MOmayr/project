@@ -1,5 +1,9 @@
-
-var app = angular.module('App', ['ngMaterial', 'ui.router']);
+var app;
+if(roles) {
+    app = angular.module('App', ['ngMaterial', 'ui.router', 'ui.grid', 'ui.grid.selection', 'ui.grid.exporter', 'ui.grid.resizeColumns']);
+}else {
+    app = angular.module('App', ['ngMaterial', 'ui.router']);
+}
 
 app.config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
