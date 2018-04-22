@@ -1,8 +1,8 @@
 var highchart, exporting, boost;
-var GREEN = "green";
-var BLUE = "blue";
-var RED = "red";
-var ORANGE = "orange";
+var TOTAL = "#5E6B6D";
+var SURVEYED = "#00B7A9";
+var UNSURVEYED = "#FF625E";
+var UNASSESSED = "#F5C729";
 var BARCHART = "column";
 var PIECHART = "pie";
 app.controller('DashboardController', function ($scope, $http, $rootScope, $state) {
@@ -34,7 +34,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 return;
             }
             // var data = value.data;
-            var all = performInitials(value.data);
+            console.log(value.data);
+            var all = performInitials(value.data.stats);
             generateAllOrDistrictChart(all, interval);
         }, function (reason) {
             alert("Something is Wrong!");
@@ -82,15 +83,10 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             seriesProperty.push({name: "Total Properties", data: all.total});
             seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
             seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
-            generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], BARCHART);
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], BARCHART, 'Assessed Properties Statistics');
 
             setTimeout(function () {
-                // var seriesPrType = [];
-                // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
-                // seriesPrType.push({name: "Open Plots", data: all.openplot});
-                // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
 
-                // var seriesPrType = [];
                 var seriesPrType = [{
                     name: 'Properties',
                     colorByPoint: true,
@@ -104,23 +100,23 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 }];
                 // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
                 // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, UNASSESSED], PIECHART, 'Assessed / Unassessed Properties');
 
-                setTimeout(function () {
-                    var seriesOccStatus = [];
-                    seriesOccStatus.push({name: "Self", data: all.self});
-                    seriesOccStatus.push({name: "Rented", data: all.rented});
-                    seriesOccStatus.push({name: "Both", data: all.both});
-                    generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], BARCHART);
-
-                    setTimeout(function () {
-                        var seriesLandUsage = [];
-                        seriesLandUsage.push({name: "Commercial", data: all.commercial});
-                        seriesLandUsage.push({name: "Residential", data: all.residential});
-                        seriesLandUsage.push({name: "Special", data: all.special});
-                        generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], BARCHART);
-                    }, interval);
-                }, interval);
+                // setTimeout(function () {
+                //     var seriesOccStatus = [];
+                //     seriesOccStatus.push({name: "Self", data: all.self});
+                //     seriesOccStatus.push({name: "Rented", data: all.rented});
+                //     seriesOccStatus.push({name: "Both", data: all.both});
+                //     generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [SURVEYED, TOTAL, UNASSESSED], BARCHART);
+                //
+                //     setTimeout(function () {
+                //         var seriesLandUsage = [];
+                //         seriesLandUsage.push({name: "Commercial", data: all.commercial});
+                //         seriesLandUsage.push({name: "Residential", data: all.residential});
+                //         seriesLandUsage.push({name: "Special", data: all.special});
+                //         generateBarChart('landUsageChart', all.name, seriesLandUsage, [SURVEYED, TOTAL, UNASSESSED], BARCHART);
+                //     }, interval);
+                // }, interval);
             }, interval)
         }, 0);
     }
@@ -136,13 +132,13 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             seriesProperty[0].data.push({name: "Total Properties", y: sum(all.total)});
             seriesProperty[0].data.push({name: "Surveyed Properties", y: sum(all.surveyed)});
             seriesProperty[0].data.push({name: "Un-Surveyed Properties", y: sum(all.unsurveyed)});
-            generateBarChart('propertyCountChart', all.name, seriesProperty, [BLUE, GREEN, RED], PIECHART);
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], PIECHART, 'Assessed Properties Statistics');
 
             setTimeout(function () {
                 // var seriesPrType = [];
                 // seriesPrType.push({name: "Land (Covered & Uncovered)", data: all.land});
                 // seriesPrType.push({name: "Open Plots", data: all.openplot});
-                // generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], BARCHART);
+                // generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, TOTAL], BARCHART);
 
                 // var seriesPrType = [];
                 var seriesPrType = [{
@@ -158,31 +154,31 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 }];
                 // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
                 // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                generateBarChart('propertyTypeChart', all.name, seriesPrType, [GREEN, BLUE], PIECHART);
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, TOTAL], PIECHART, 'Assessed / Unassessed Properties');
 
-                setTimeout(function () {
-                    var seriesOccStatus = [{
-                        name : "Occupation Status",
-                        colorByPoint: true,
-                        data : []
-                    }];
-                    seriesOccStatus[0].data.push({name: "Self", y: sum(all.self)});
-                    seriesOccStatus[0].data.push({name: "Rented", y: sum(all.rented)});
-                    seriesOccStatus[0].data.push({name: "Both", y: sum(all.both)});
-                    generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [GREEN, BLUE, ORANGE], PIECHART);
-
-                    setTimeout(function () {
-                        var seriesLandUsage = [{
-                            name : "Land-use Status",
-                            colorByPoint: true,
-                            data : []
-                        }];
-                        seriesLandUsage[0].data.push({name: "Commercial", y: sum(all.commercial)});
-                        seriesLandUsage[0].data.push({name: "Residential", y: sum(all.residential)});
-                        seriesLandUsage[0].data.push({name: "Special", y: sum(all.special)});
-                        generateBarChart('landUsageChart', all.name, seriesLandUsage, [GREEN, BLUE, ORANGE], PIECHART);
-                    }, interval);
-                }, interval);
+                // setTimeout(function () {
+                //     var seriesOccStatus = [{
+                //         name : "Occupation Status",
+                //         colorByPoint: true,
+                //         data : []
+                //     }];
+                //     seriesOccStatus[0].data.push({name: "Self", y: sum(all.self)});
+                //     seriesOccStatus[0].data.push({name: "Rented", y: sum(all.rented)});
+                //     seriesOccStatus[0].data.push({name: "Both", y: sum(all.both)});
+                //     generateBarChart('propertyOccStatus', all.name, seriesOccStatus, [SURVEYED, TOTAL, UNASSESSED], PIECHART);
+                //
+                //     setTimeout(function () {
+                //         var seriesLandUsage = [{
+                //             name : "Land-use Status",
+                //             colorByPoint: true,
+                //             data : []
+                //         }];
+                //         seriesLandUsage[0].data.push({name: "Commercial", y: sum(all.commercial)});
+                //         seriesLandUsage[0].data.push({name: "Residential", y: sum(all.residential)});
+                //         seriesLandUsage[0].data.push({name: "Special", y: sum(all.special)});
+                //         generateBarChart('landUsageChart', all.name, seriesLandUsage, [SURVEYED, TOTAL, UNASSESSED], PIECHART);
+                //     }, interval);
+                // }, interval);
             }, interval)
         }, 0);
     }
@@ -201,14 +197,14 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
         });
         console.log(all);
         $scope.total = sum(all.total);
-        $scope.both = sum(all.both);
-        $scope.commercial = sum(all.commercial);
-        $scope.land = sum(all.land);
-        $scope.openplot = sum(all.openplot);
-        $scope.rented = sum(all.rented);
-        $scope.residential = sum(all.residential);
-        $scope.self = sum(all.self);
-        $scope.special = sum(all.special);
+        // $scope.both = sum(all.both);
+        // $scope.commercial = sum(all.commercial);
+        // $scope.land = sum(all.land);
+        // $scope.openplot = sum(all.openplot);
+        // $scope.rented = sum(all.rented);
+        // $scope.residential = sum(all.residential);
+        // $scope.self = sum(all.self);
+        // $scope.special = sum(all.special);
         $scope.surveyed = sum(all.surveyed);
         $scope.unassessed = sum(all.unassessed);
         $scope.unsurveyed = sum(all.unsurveyed);
@@ -226,14 +222,14 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     // loadScript("jslibs/Highcharts/exporting.js", exporting, function () {});
 
 
-    function generateBarChart(div, xCats, series, colors, chartType) {
+    function generateBarChart(div, xCats, series, colors, chartType, title) {
         return new Highcharts.chart(div, {
             chart: {
                 type: chartType,
                 width: chartType === "column" ? xCats.length > 10 ? xCats.length * 70 : null : null
             },
             title: {
-                text: ''
+                text: title
             },
             credits: false,
             subtitle: {
@@ -261,7 +257,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
-                    borderWidth: 0
+                    borderWidth: 0,
+                    stacking: 'normal'
                 },
                 pie: {
                     allowPointSelect: true,

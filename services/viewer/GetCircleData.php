@@ -23,10 +23,13 @@ class GetCircleData extends Connection
 
         $district = $_REQUEST['district'];
         $circle = $_REQUEST['circle'];
+        $startDate = $_REQUEST['startDate'];
+        $endDate = $_REQUEST['endDate'];
 
-        $sql = "select * from base_android_view_conflict where \"District Name\" = $1 and \"Circle Name\" = $2 order by \"Survey Datetime\" desc;";
+        $sql = "select * from base_android_view_conflict where \"District Name\" like $1 and \"Circle Name\" like  $2 and \"Survey Datetime\"::date >= $3
+and \"Survey Datetime\"::date <= $4 order by \"Survey Datetime\" desc;";
 
-        $result = pg_query_params($sql, array($district, $circle));
+        $result = pg_query_params($sql, array($district, $circle, $startDate, $endDate));
         $all = pg_fetch_all($result);
         $valsArray = array();
         $colsArray = array();
@@ -44,9 +47,9 @@ class GetCircleData extends Connection
 
         $sqlStats = "with data as (select $1::text as district, $2::text as circle)
 select 
-(select count(*) from base_android_data where district_name = (select district from data) and circle_name = (select circle from data)) as uploads, 
-(select count(f.*) from(select distinct on (pin) pin from base_android_data where pin is not null and district_name = (select district from data) and circle_name = (select circle from data)) as f) as unique_pins, 
-(select count(*) from base_android_data where pr_type = 2 and district_name = (select district from data) and circle_name = (select circle from data)) as unassessed;";
+(select count(*) from base_android_data where district_name like (select district from data) and circle_name like (select circle from data)) as uploads, 
+(select count(f.*) from(select distinct on (pin) pin from base_android_data where pin is not null and district_name like (select district from data) and circle_name like (select circle from data)) as f) as unique_pins, 
+(select count(*) from base_android_data where pr_type = 2 and district_name like (select district from data) and circle_name like (select circle from data)) as unassessed;";
         $resultStats = pg_query_params($sqlStats, array($district, $circle));
         $rowStats = pg_fetch_assoc($resultStats);
 

@@ -7,10 +7,22 @@ if(roles) {
 
 app.config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-        .primaryPalette('light-blue')
+        // .primaryPalette('light-blue')
+        .primaryPalette('blue-grey')
         .accentPalette('orange')
-        .backgroundPalette('grey')
+        // .backgroundPalette('grey')
     // .dark()
+});
+
+app.config(function ($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function (date) {
+        if (date === undefined) return;
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return year + '-' + (monthIndex + 1) + '-' + day;
+    };
 });
 
 window.onscroll = function() {scrollFunction()};

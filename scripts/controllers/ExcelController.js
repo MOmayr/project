@@ -119,14 +119,3 @@ app.directive('myDropdown', function () {
         }
     }
 });
-
-app.config(function ($mdDateLocaleProvider) {
-    $mdDateLocaleProvider.formatDate = function (date) {
-        if (date === undefined) return;
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-
-        return year + '-' + (monthIndex + 1) + '-' + day;
-    };
-});

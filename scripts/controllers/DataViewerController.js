@@ -5,6 +5,10 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
         if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
     });
 
+    $scope.startDate = new Date();
+    $scope.endDate = new Date();
+    $scope.maxDate = new Date();
+
     $scope.gridOptions = {
         // columnDefs: [{field: "Front type of Property"}],
         enableFiltering: true,
@@ -23,14 +27,18 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
     $scope.dropdownChange = function (id, obj) {
         if (id === 'district') {
             $scope.circle = undefined;
-        } else $scope.getCircleData();
+        }
+        ;
         // console.log($scope.district, $scope.circle);
     };
 
-    $scope.getCircleData = function () {
+    $scope.getData = function () {
+        var circle = $scope.circle === "All" ? "%" : $scope.circle.name;
+        var district = $scope.district === "All" ? "%" : $scope.district;
         $http({
             method: 'GET',
-            url: "services/viewer/GetCircleData.php?district=" + $scope.district.name + "&circle=" + $scope.circle.name
+            url: "services/viewer/GetCircleData.php?district=" + district + "&circle=" + circle +
+            "&startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
             // url: "services/viewer/GetCircleData.php?district=Lahore&circle=Abbot Road"
         }).then(function (value) {
             if (value.data.error === "cout") {
@@ -42,8 +50,10 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             $scope.gridOptions.columnDefs = [];
             if (value.data.keys instanceof Array) {
                 value.data.keys.forEach(function (val, i) {
-                    $scope.gridOptions.columnDefs.push({field: val, cellTooltip: true, headerTooltip: true,
-                        enableColumnResizing: true});
+                    $scope.gridOptions.columnDefs.push({
+                        field: val, cellTooltip: true, headerTooltip: true,
+                        enableColumnResizing: true
+                    });
                 })
             }
             // console.log($scope.gridOptions.data);
@@ -63,11 +73,30 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
                 return;
             }
             $scope.districts = value.data.districts;
+            $scope.districts.unshift({name: "All"});
             $scope.circles = value.data.circles;
-            $scope.district = $scope.districts[0];
+            // $scope.circles.push({name: "All", district_name: "All"});
+            $scope.district = "All";
+            // $scope.circle = "All";
             // console.log(value.data);
         }, function (reason) {
             alert("Something is Wrong!");
         });
     };
+
+    $scope.$watch('startDate', function (newVal) {
+        try {
+            $scope.selectedDateStart = newVal.getFullYear() + "-" + (newVal.getMonth() + 1) + "-" + newVal.getDate();
+        } catch (E) {
+            $scope.selectedDateStart = undefined;
+        }
+    });
+
+    $scope.$watch('endDate', function (newVal) {
+        try {
+            $scope.selectedDateEnd = newVal.getFullYear() + "-" + (newVal.getMonth() + 1) + "-" + newVal.getDate();
+        } catch (E) {
+            $scope.selectedDateEnd = undefined;
+        }
+    });
 });
