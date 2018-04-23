@@ -52,7 +52,7 @@ if (!$check) return;
                 <h5>{{selectedDateEnd}}</h5>
             </div>
             <div flex layout="row" layout-align="center center">
-                <md-button ng-disabled="myForm.$invalid" class="md-primary md-raised"
+                <md-button ng-disabled="myForm.$invalid || inProgress" class="md-primary md-raised"
                            ng-click="getData()">
                     Get Excel
                 </md-button>
@@ -89,8 +89,94 @@ if (!$check) return;
                 </div>
                 <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp"
                                style="padding-top: 1px; overflow: hidden; height: 400px">
-                    <div ui-grid="gridOptions" ui-grid-resize-columns ui-grid-exporter style="height: 400px"
+                    <div ui-grid="gridOptions" ui-grid-exporter ui-grid-resize-columns style="height: 400px"
                          ng-if="gridOptions.columnDefs"></div>
+                </md-whiteframe>
+            </div>
+        </div>
+
+        <div flex="50" flex-sm="100" flex-xs="100" class="padding">
+            <div layout="column">
+                <div class="toolbar" layout="row">
+                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">
+                        Property's Data
+                    </md-card>
+                </div>
+                <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp"
+                               style="padding-top: 1px; overflow-y: auto; height: 400px">
+                    <div ng-if="prData">
+                        <h3 flex layout="row" layout-align="center center">Basements Info</h3>
+                        <table id="factorTable">
+                            <tr>
+                                <th>Basement No</th>
+                                <th>Occupation Type</th>
+                                <th>Rented Area</th>
+                                <th>Self Area</th>
+                            </tr>
+                            <tr ng-repeat="b in prData.basements">
+                                <td>{{b['Basement No']}}</td>
+                                <td>{{b['Occupation Type']}}</td>
+                                <td>{{b['Rented Area']}}</td>
+                                <td>{{b['Self Area']}}</td>
+                            </tr>
+                        </table>
+
+                        <h3 flex layout="row" layout-align="center center">Floors Info</h3>
+                        <table id="factorTable">
+                            <tr>
+                                <th>Floor No</th>
+                                <th>Occupation Type</th>
+                                <th>Rented Area</th>
+                                <th>Self Area</th>
+                            </tr>
+                            <tr ng-repeat="f in prData.floors">
+                                <td>{{f['Floor No']}}</td>
+                                <td>{{f['Occupation Type']}}</td>
+                                <td>{{f['Rented Area']}}</td>
+                                <td>{{f['Self Area']}}</td>
+                            </tr>
+                        </table>
+
+                        <h3 flex layout="row" layout-align="center center">Pictures</h3>
+                        <table id="factorTable">
+                            <tr>
+                                <th>Picture Type</th>
+                                <th>Picture</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Property Image</td>
+                                <td>
+                                    <md-tooltip md-direction="top">Click image to Enlarge</md-tooltip>
+                                    <img src="{{prData.prImage}}" height="100"
+                                         ng-click="enlarge(prData.prImage)"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat="p in prData.ep">
+                                <td>Extra Image {{p['number']}}</td>
+                                <td>
+                                    <md-tooltip md-direction="top">Click image to Enlarge</md-tooltip>
+                                    <img src="{{p['Pic Url']}}" height="100"
+                                         ng-click="enlarge(p['Pic Url'])"/>
+                                </td>
+                                <td>{{p['description']}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </md-whiteframe>
+            </div>
+        </div>
+
+        <div flex="50" flex-sm="100" flex-xs="100" class="padding">
+            <div layout="column">
+                <div class="toolbar" layout="row">
+                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">
+                        Map
+                    </md-card>
+                </div>
+                <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp"
+                               style="padding-top: 1px; overflow: hidden; height: 400px">
                 </md-whiteframe>
             </div>
         </div>

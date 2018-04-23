@@ -131,7 +131,7 @@ if (!$check) return;
 <!--                        Assessed Properties Statistics-->
 <!--                    </md-card>-->
 <!--                </div>-->
-                <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp div-sizes "
+                <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp div-sizes"
                                style="padding-top: 1px; overflow-x: auto; overflow-y: hidden">
 <!--                    <div id="propertyCountChart"></div>-->
                 </md-whiteframe>
@@ -145,7 +145,7 @@ if (!$check) return;
 <!--                        Assessed / Unassessed Properties-->
 <!--                    </md-card>-->
 <!--                </div>-->
-                <md-whiteframe id="propertyTypeChart" class="md-whiteframe-3dp div-sizes "
+                <md-whiteframe id="propertyTypeChart" class="md-whiteframe-3dp div-sizes"
                                style="padding-top: 1px;overflow-x: auto;overflow-y: hidden">
                     <div></div>
                 </md-whiteframe>

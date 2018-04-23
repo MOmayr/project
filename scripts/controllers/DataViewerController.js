@@ -16,24 +16,53 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
         exporterMenuPdf: false,
         exporterMenuCsv: false,
         enableSelectAll: true,
+        enableRowSelection: true,
         exporterExcelFilename: 'Android Data.xlsx',
         exporterExcelSheetName: 'Data',
         minimumColumnSize: 150,
+        rowTemplate: '<div ng-style="{\'background-color\': row.entity.backColor}" ng-click="grid.appScope.tableRowClick(row.entity)" ng-repeat="col in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell></div>',
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
         }
+
+    };
+
+    var prevRowIndex;
+    $scope.tableRowClick = function (obj) {
+        $scope.prData = {};
+        var index = $scope.gridOptions.data.indexOf(obj);
+        $scope.gridOptions.data[index].backColor = 'orange';
+        if (prevRowIndex !== undefined && prevRowIndex !== index) {
+            $scope.gridOptions.data[prevRowIndex].backColor = undefined;
+        }
+        $scope.prData.prImage = obj['Picture Url'];
+        if(obj.Basements !== null){
+            $scope.prData.basements = $.parseJSON(obj.Basements.replace(/'/g, '"'));
+        }else $scope.prData.basements = null;
+
+        if(obj.Floors !== null){
+            $scope.prData.floors = $.parseJSON(obj.Floors.replace(/'/g, '"'));
+        }else $scope.prData.floors = null;
+
+        if(obj['Extra Pictures'] !== null){
+            $scope.prData.ep = $.parseJSON(obj['Extra Pictures'].replace(/'/g, '"'));
+        }else $scope.prData.ep = null;
+
+        // console.log(obj, $scope.prData);
+        prevRowIndex = index;
     };
 
     $scope.dropdownChange = function (id, obj) {
         if (id === 'district') {
             $scope.circle = undefined;
         }
-        ;
         // console.log($scope.district, $scope.circle);
     };
 
     $scope.getData = function () {
+        $scope.inProgress = true;
         var circle = $scope.circle === "All" ? "%" : $scope.circle.name;
+        // var circle = "%";
         var district = $scope.district === "All" ? "%" : $scope.district;
         $http({
             method: 'GET',
@@ -41,10 +70,12 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             "&startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
             // url: "services/viewer/GetCircleData.php?district=Lahore&circle=Abbot Road"
         }).then(function (value) {
+            $scope.inProgress = false;
             if (value.data.error === "cout") {
                 location.reload();
                 return;
             }
+            $scope.prData = undefined;
             $scope.stats = value.data.stats;
             $scope.gridOptions.data = convertResArrayToObj(value.data.vals, value.data.keys);
             $scope.gridOptions.columnDefs = [];
@@ -58,10 +89,10 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             }
             // console.log($scope.gridOptions.data);
         }, function (reason) {
+            $scope.inProgress = false;
             alert("Something is Wrong!");
         });
     };
-    // $scope.getCircleData();
 
     $scope.getDistrictCircle = function () {
         $http({
@@ -79,6 +110,7 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             $scope.district = "All";
             // $scope.circle = "All";
             // console.log(value.data);
+            // $scope.getData();
         }, function (reason) {
             alert("Something is Wrong!");
         });
@@ -99,4 +131,25 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             $scope.selectedDateEnd = undefined;
         }
     });
+
+    $scope.enlarge = function (path) {
+        $mdDialog.show({
+            clickOutsideToClose: true,
+            template: '<md-dialog aria-label="Image">' +
+            '  <md-dialog-content>' +
+            '    <img src="' + path + '" height=100% width=100%>' +
+            '  </md-dialog-content>' +
+            '  <md-dialog-actions>' +
+            '    <md-button ng-click="closeDialog()" class="md-primary md-raised">' +
+            '      Close' +
+            '    </md-button>' +
+            '  </md-dialog-actions>' +
+            '</md-dialog>',
+            controller: function DialogController($scope, $mdDialog) {
+                $scope.closeDialog = function () {
+                    $mdDialog.hide();
+                }
+            }
+        });
+    };
 });
