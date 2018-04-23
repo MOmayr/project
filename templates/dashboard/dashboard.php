@@ -70,7 +70,7 @@ if (!$check) return;
             </div>
             <div flex="50" flex="100" layout="row">
                 <md-button flex="100" class="md-primary md-raised progress-md-button">
-                    Unassessed : {{unassessed}}
+                    Unassessed : {{unassessed}}*
                 </md-button>
             </div>
         </div>
@@ -170,10 +170,6 @@ if (!$check) return;
 <!--                        Assessed Properties Occupation Status-->
 <!--                    </md-card>-->
 <!--                </div>-->
-<!--                <md-whiteframe id="propertyOccStatus" class="md-whiteframe-3dp div-sizes "-->
-<!--                               style="padding-top: 1px; overflow-x: auto;overflow-y: hidden">-->
-<!--                    <!--                    <div id="propertyCountChart"></div>-->-->
-<!--                </md-whiteframe>-->
 <!--            </div>-->
 <!--        </div>-->
 <!---->

@@ -5,6 +5,7 @@ var UNSURVEYED = "#FF625E";
 var UNASSESSED = "#F5C729";
 var BARCHART = "column";
 var PIECHART = "pie";
+var note = "Unassessed Properties are subject to Review & Discussion!";
 app.controller('DashboardController', function ($scope, $http, $rootScope, $state) {
 
     $.each(roles, function (i, obj) {
@@ -83,7 +84,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             seriesProperty.push({name: "Total Properties", data: all.total});
             seriesProperty.push({name: "Surveyed Properties", data: all.surveyed});
             seriesProperty.push({name: "Un-Surveyed Properties", data: all.unsurveyed});
-            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], BARCHART, 'Assessed Properties Statistics');
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], BARCHART, 'Assessed Properties Statistics',
+                null);
 
             setTimeout(function () {
 
@@ -100,7 +102,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 }];
                 // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
                 // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, UNASSESSED], PIECHART, 'Assessed / Unassessed Properties');
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, UNASSESSED], PIECHART, 'Assessed / Unassessed Properties',
+                    note);
 
                 // setTimeout(function () {
                 //     var seriesOccStatus = [];
@@ -132,7 +135,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             seriesProperty[0].data.push({name: "Total Properties", y: sum(all.total)});
             seriesProperty[0].data.push({name: "Surveyed Properties", y: sum(all.surveyed)});
             seriesProperty[0].data.push({name: "Un-Surveyed Properties", y: sum(all.unsurveyed)});
-            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], PIECHART, 'Assessed Properties Statistics');
+            generateBarChart('propertyCountChart', all.name, seriesProperty, [TOTAL, SURVEYED, UNSURVEYED], PIECHART, 'Assessed Properties Statistics',
+                null);
 
             setTimeout(function () {
                 // var seriesPrType = [];
@@ -154,7 +158,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 }];
                 // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
                 // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, TOTAL], PIECHART, 'Assessed / Unassessed Properties');
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, TOTAL], PIECHART, 'Assessed / Unassessed Properties',
+                    note);
 
                 // setTimeout(function () {
                 //     var seriesOccStatus = [{
@@ -222,7 +227,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     // loadScript("jslibs/Highcharts/exporting.js", exporting, function () {});
 
 
-    function generateBarChart(div, xCats, series, colors, chartType, title) {
+    function generateBarChart(div, xCats, series, colors, chartType, title, subtitle) {
         return new Highcharts.chart(div, {
             chart: {
                 type: chartType,
@@ -233,7 +238,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             },
             credits: false,
             subtitle: {
-                text: ''
+                text: subtitle
             },
             xAxis: {
                 categories: xCats,
