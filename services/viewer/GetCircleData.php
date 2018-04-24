@@ -27,7 +27,7 @@ class GetCircleData extends Connection
         $endDate = $_REQUEST['endDate'];
 
         $sql = "select * from base_android_view_conflict where \"District Name\" like $1 and \"Circle Name\" like  $2 and \"Survey Datetime\"::date >= $3
-and \"Survey Datetime\"::date <= $4 order by \"Survey Datetime\" desc limit 50;";
+and \"Survey Datetime\"::date <= $4 order by \"Survey Datetime\" desc;";
 
 //        $sql = "select * from base_android_view_conflict where \"District Name\" like $1 and \"Circle Name\" like  $2 and \"Basements\" is not null and \"Floors\" is not null
 // order by \"Survey Datetime\" desc limit 50;";
