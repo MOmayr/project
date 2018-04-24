@@ -64,7 +64,7 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             title: obj['Pin']
         });
         map.panTo(position);
-        map.setZoom(14);
+        map.setZoom(15);
 
 
         // console.log(obj);
