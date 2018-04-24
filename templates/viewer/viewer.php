@@ -175,10 +175,11 @@ if (!$check) return;
                         Map
                     </md-card>
                 </div>
-                <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp"
+                <md-whiteframe id="map" class="md-whiteframe-3dp"
                                style="padding-top: 1px; overflow: hidden; height: 400px">
                 </md-whiteframe>
             </div>
         </div>
     </div>
+    <div style="height: 10px"></div>
 </div>

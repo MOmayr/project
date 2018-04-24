@@ -40,6 +40,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                 // console.log('state entered')
             },
             onExit: function () {
+                // document.getElementById('map').rem = null;
+                // var div = document.getElementById('map');
+                // while(div.firstChild){
+                //     div.removeChild(div.firstChild);
+                // }
                 // console.log('state exit');
             }
         })

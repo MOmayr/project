@@ -1,8 +1,16 @@
+var gmapLib;
+var currentMarker;
 app.controller('DataViewerController', function ($scope, $http, $mdDialog, $rootScope, $state) {
 
+    var map;
     $.each(roles, function (i, obj) {
         // console.log(obj);
         if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
+    });
+
+    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyCpbQx_9w8XP1avJPlsiexDl_AGrk1FBYs", gmapLib, function () {
+        gmapLib = true;
+        initMap();
     });
 
     $scope.startDate = new Date();
@@ -48,7 +56,18 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             $scope.prData.ep = $.parseJSON(obj['Extra Pictures'].replace(/'/g, '"'));
         }else $scope.prData.ep = null;
 
-        // console.log(obj, $scope.prData);
+        if(currentMarker) currentMarker.setMap(null);
+        var position = {lat: parseFloat(obj['Latitude']), lng: parseFloat(obj['Longitude'])};
+        currentMarker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: obj['Pin']
+        });
+        map.panTo(position);
+        map.setZoom(14);
+
+
+        // console.log(obj);
         prevRowIndex = index;
     };
 
@@ -152,4 +171,14 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             }
         });
     };
+
+    function initMap() {
+        setTimeout(function () {
+            console.log("map init");
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 6,
+                center: new google.maps.LatLng(29.5, 71.617)
+            });
+        },500);
+    }
 });
