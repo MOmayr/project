@@ -51,11 +51,11 @@ if (!$check) return;
                     Un-Surveyed : {{unsurveyed}}
                 </md-button>
             </div>
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-accent md-raised progress-md-button">-->
-<!--                    Unassessed : {{unassessed}}-->
-<!--                </md-button>-->
-<!--            </div>-->
+            <!--            <div flex="33" layout="row">-->
+            <!--                <md-button flex="100" class="md-accent md-raised progress-md-button">-->
+            <!--                    Unassessed : {{unassessed}}-->
+            <!--                </md-button>-->
+            <!--            </div>-->
         </div>
         <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">
             <div flex="100" layout="row">
@@ -76,75 +76,75 @@ if (!$check) return;
         </div>
     </div>
 
-<!--    <div flex="100" layout="row" layout-wrap="" class="border div-margins">-->
-<!--        <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">-->
-<!--            <div flex="100" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Occupation Status-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Self : {{self}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Rented : {{rented}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Both : {{both}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">-->
-<!--            <div flex="100" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Land-use Status-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Commercial : {{commercial}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Residential : {{residential}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--            <div flex="33" layout="row">-->
-<!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
-<!--                    Special Properties : {{special}}-->
-<!--                </md-button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
+    <!--    <div flex="100" layout="row" layout-wrap="" class="border div-margins">-->
+    <!--        <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">-->
+    <!--            <div flex="100" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Occupation Status-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex="33" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Self : {{self}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex="33" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Rented : {{rented}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Both : {{both}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div flex="50" flex-sm="100" flex-xs="100" layout="row" layout-wrap="">-->
+    <!--            <div flex="100" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Land-use Status-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex="33" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Commercial : {{commercial}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex="33" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Residential : {{residential}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--            <div flex="33" layout="row">-->
+    <!--                <md-button flex="100" class="md-primary md-raised progress-md-button">-->
+    <!--                    Special Properties : {{special}}-->
+    <!--                </md-button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
     <div flex="100" layout="row" layout-wrap="" class="div-margins">
-        <div flex="50" flex-sm="100" flex-xs="100" class="padding">
+        <div flex="100" flex-sm="100" flex-xs="100" class="padding">
             <div layout="column">
-<!--                <div class="toolbar" layout="row">-->
-<!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
-<!--                        Assessed Properties Statistics-->
-<!--                    </md-card>-->
-<!--                </div>-->
+                <!--                <div class="toolbar" layout="row">-->
+                <!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
+                <!--                        Assessed Properties Statistics-->
+                <!--                    </md-card>-->
+                <!--                </div>-->
                 <md-whiteframe id="propertyCountChart" class="md-whiteframe-3dp div-sizes"
                                style="padding-top: 1px; overflow-x: auto; overflow-y: hidden">
-<!--                    <div id="propertyCountChart"></div>-->
+                    <!--                    <div id="propertyCountChart"></div>-->
                 </md-whiteframe>
             </div>
         </div>
 
         <div flex="50" flex-sm="100" flex-xs="100" class="padding">
             <div layout="column">
-<!--                <div class="toolbar" layout="row">-->
-<!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
-<!--                        Assessed / Unassessed Properties-->
-<!--                    </md-card>-->
-<!--                </div>-->
+                <!--                <div class="toolbar" layout="row">-->
+                <!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
+                <!--                        Assessed / Unassessed Properties-->
+                <!--                    </md-card>-->
+                <!--                </div>-->
                 <md-whiteframe id="propertyTypeChart" class="md-whiteframe-3dp div-sizes"
                                style="padding-top: 1px;overflow-x: auto;overflow-y: hidden">
                     <div></div>
@@ -152,40 +152,57 @@ if (!$check) return;
             </div>
         </div>
 
-<!--        <div flex="50" flex-sm="100" flex-xs="100" class="padding">-->
-<!--            <div layout="column">-->
-<!--                <md-whiteframe id="timelineChart" class="md-whiteframe-3dp div-sizes "-->
-<!--                               style="padding-top: 1px;overflow-x: auto;overflow-y: hidden">-->
-<!--                    <div></div>-->
-<!--                </md-whiteframe>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div flex="50" flex-sm="100" flex-xs="100" class="padding">
+            <div layout="column">
+                <md-whiteframe id="timelineChart" class="md-whiteframe-3dp div-sizes "
+                               style="padding-top: 1px; overflow-y: auto">
+                    <div flex="100" layout="row" layout-align="center center"
+                         style="font-size: 18px; font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif; margin: 4px">
+                        Timeline
+                    </div>
+                    <div style="overflow: auto">
+                        <table id="factorTable">
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Uploads</th>
+                            </tr>
+                            <tr ng-repeat="e in tl">
+                                <td>{{e.name}}</td>
+                                <td>{{e.date}}</td>
+                                <td>{{e.count}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </md-whiteframe>
+            </div>
+        </div>
     </div>
 
-<!--    <div flex="100" layout="row" layout-wrap="" class="div-margins">-->
-<!--        <div flex="50" flex-sm="100" flex-xs="100" class="padding">-->
-<!--            <div layout="column">-->
-<!--                <div class="toolbar" layout="row">-->
-<!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
-<!--                        Assessed Properties Occupation Status-->
-<!--                    </md-card>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!---->
-<!--        <div flex="50" flex-sm="100" flex-xs="100" class="padding">-->
-<!--            <div layout="column">-->
-<!--                <div class="toolbar" layout="row">-->
-<!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
-<!--                        Assessed Properties Land Usage-->
-<!--                    </md-card>-->
-<!--                </div>-->
-<!--                <md-whiteframe id="landUsageChart" class="md-whiteframe-3dp div-sizes "-->
-<!--                               style="padding-top: 1px;overflow-x: auto; overflow-y: hidden">-->
-<!--                    <div></div>-->
-<!--                </md-whiteframe>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div flex="100" layout="row" layout-wrap="" class="div-margins">-->
+    <!--        <div flex="50" flex-sm="100" flex-xs="100" class="padding">-->
+    <!--            <div layout="column">-->
+    <!--                <div class="toolbar" layout="row">-->
+    <!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
+    <!--                        Assessed Properties Occupation Status-->
+    <!--                    </md-card>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!---->
+    <!--        <div flex="50" flex-sm="100" flex-xs="100" class="padding">-->
+    <!--            <div layout="column">-->
+    <!--                <div class="toolbar" layout="row">-->
+    <!--                    <md-card flex="100" layout="row" layout-align="center center" md-colors="{background: 'primary'}">-->
+    <!--                        Assessed Properties Land Usage-->
+    <!--                    </md-card>-->
+    <!--                </div>-->
+    <!--                <md-whiteframe id="landUsageChart" class="md-whiteframe-3dp div-sizes "-->
+    <!--                               style="padding-top: 1px;overflow-x: auto; overflow-y: hidden">-->
+    <!--                    <div></div>-->
+    <!--                </md-whiteframe>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div style="height: 10px"></div>
 </div>

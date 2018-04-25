@@ -37,6 +37,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             // var data = value.data;
             console.log(value.data);
             var all = performInitials(value.data.stats);
+            $scope.tl = value.data.tl;
             generateAllOrDistrictChart(all, interval);
         }, function (reason) {
             alert("Something is Wrong!");
@@ -53,8 +54,10 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 return;
             }
             // var data = value.data;
-            var all = performInitials(value.data);
+            var all = performInitials(value.data.stats);
+            $scope.tl = value.data.tl;
             generateAllOrDistrictChart(all, interval);
+            console.log(value.data)
         }, function (reason) {
             alert("Something is Wrong!");
         });
@@ -70,8 +73,10 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 return;
             }
             // var data = value.data;
-            var all = performInitials(value.data);
+            var all = performInitials(value.data.stats);
+            $scope.tl = value.data.tl;
             generateCircleChart(all, interval);
+            console.log(value.data)
         }, function (reason) {
             alert("Something is Wrong!");
         });
@@ -158,7 +163,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
                 }];
                 // seriesPrType.push({name: "Properties", data: {name: "Assessed Properties", y: sum(all.surveyed)}});
                 // seriesPrType.push({name: "Unassessed Properties", data: [sum(all.unassessed)]});
-                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, TOTAL], PIECHART, 'Assessed / Unassessed Properties',
+                generateBarChart('propertyTypeChart', all.name, seriesPrType, [SURVEYED, UNASSESSED], PIECHART, 'Assessed / Unassessed Properties',
                     note);
 
                 // setTimeout(function () {
@@ -231,7 +236,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
         return new Highcharts.chart(div, {
             chart: {
                 type: chartType,
-                width: chartType === "column" ? xCats.length > 10 ? xCats.length * 70 : null : null
+                width: chartType === "column" ? xCats.length > 15 ? xCats.length * 70 < window.innerWidth ? window.innerWidth :xCats.length * 70 : null: null
             },
             title: {
                 text: title

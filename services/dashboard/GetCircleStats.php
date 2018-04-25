@@ -73,8 +73,20 @@ left outer join (
 
         $result = pg_query_params($sql, array($district, $circle));
         $stats = pg_fetch_all($result);
-        echo json_encode($stats, JSON_NUMERIC_CHECK);
+
+        $sqlTimeline = "with c as (select $1::text as district, $2::text as circle)
+select coalesce(name, null, (select c.circle from c)) as name, coalesce(data.count,null,0) as count, dr.date from generate_series(CURRENT_DATE - '7 days'::interval, CURRENT_DATE, '1 day'::interval) dr
+left outer join (
+select circle_name as name, survey_datetime::date as date, count(*) from base_android_data 
+where survey_datetime >= (select (CURRENT_DATE - '7 days'::interval)::date) and district_name = (select c.district from c) and circle_name = (select c.circle from c)
+group by survey_datetime::date, circle_name order by name
+) as data on dr.date = data.date";
+        $resultTimeline = pg_query_params($sqlTimeline, array($district, $circle));
+        $timeline = pg_fetch_all($resultTimeline);
+
+        echo json_encode(array("stats"=> $stats, "tl"=>$timeline), JSON_NUMERIC_CHECK);
         pg_free_result($result);
+        pg_free_result($resultTimeline);
     }
 }
 
