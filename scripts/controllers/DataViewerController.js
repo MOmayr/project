@@ -44,6 +44,9 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
             $scope.gridOptions.data[prevRowIndex].backColor = undefined;
         }
         $scope.prData.prImage = obj['Picture Url'];
+        $scope.prData['Ground floor Occupation Status'] = obj['Ground floor Occupation Status'];
+        $scope.prData['Ground floor Rented Area'] = obj['Ground floor Rented Area'];
+        $scope.prData['Ground floor Self Area'] = obj['Ground floor Self Area'];
         if(obj.Basements !== null){
             $scope.prData.basements = $.parseJSON(obj.Basements.replace(/'/g, '"'));
         }else $scope.prData.basements = null;
@@ -67,7 +70,7 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
         map.setZoom(15);
 
 
-        // console.log(obj);
+        console.log(obj);
         prevRowIndex = index;
     };
 

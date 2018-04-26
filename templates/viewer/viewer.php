@@ -129,6 +129,12 @@ if (!$check) return;
                                 <th>Rented Area</th>
                                 <th>Self Area</th>
                             </tr>
+                            <tr>
+                                <td>Ground Floor</td>
+                                <td>{{prData['Ground floor Occupation Status']}}</td>
+                                <td>{{prData['Ground floor Rented Area']}}</td>
+                                <td>{{prData['Ground floor Self Area']}}</td>
+                            </tr>
                             <tr ng-repeat="f in prData.floors">
                                 <td>{{f['Floor No']}}</td>
                                 <td>{{f['Occupation Type']}}</td>
