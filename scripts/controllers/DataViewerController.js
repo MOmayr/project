@@ -119,7 +119,7 @@ app.controller('DataViewerController', function ($scope, $http, $mdDialog, $root
     $scope.getDistrictCircle = function () {
         $http({
             method: 'GET',
-            url: "services/dashboard/GetDistrictCircle.php"
+            url: "services/viewer/GetDistrictCircle.php"
         }).then(function (value) {
             if (value.data.error === "cout") {
                 location.reload();
