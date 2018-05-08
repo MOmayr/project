@@ -56,12 +56,22 @@ class ReceiveData extends Connection
             $tenate_name = $mcrypt->decrypt($_REQUEST['tenate_name']);
             $tenate_cnic = $mcrypt->decrypt($_REQUEST['tenate_cnic']);
             $rental_amount = $mcrypt->decrypt($_REQUEST['rental_amount']);
+
             $rented_since = $mcrypt->decrypt($_REQUEST['rented_since']);
+            if ($rented_since == "0") {
+                $rented_since = null;
+            }
+
             $date_of_construction = $mcrypt->decrypt($_REQUEST['date_of_construction']);
+            if ($date_of_construction == "0") {
+                $date_of_construction = null;
+            }
+
             $date_of_last_remodeling = $mcrypt->decrypt($_REQUEST['date_of_last_remodeling']);
             if ($date_of_last_remodeling == "0") {
                 $date_of_last_remodeling = null;
             }
+
             $landuse_commercial = $mcrypt->decrypt($_REQUEST['landuse_commercial']);
             $landuse_residential = $mcrypt->decrypt($_REQUEST['landuse_residential']);
             $landuse_special = $mcrypt->decrypt($_REQUEST['landuse_special']);
