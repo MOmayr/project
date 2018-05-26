@@ -13,8 +13,13 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
         if (obj.role_name === $state.current.name) $rootScope.selectedTab = i;
     });
 
+    $scope.startDate = new Date("2018-04-01");
+    $scope.endDate = new Date();
+    $scope.maxDate = new Date();
+
     $scope.dropdownChange = function (entity, val) {
         if (entity === "district") $scope.circle = "All";
+        // if($scope.district === "All") $scope.circle = "All";
         console.log($scope.district, $scope.circle);
         if ($scope.district === "All" && $scope.circle === "All") {
             $scope.getAllStats(500);
@@ -28,7 +33,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     $scope.getAllStats = function (interval) {
         $http({
             method: 'GET',
-            url: "services/dashboard/GetAllStats.php"
+            url: "services/dashboard/GetAllStats.php?startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
         }).then(function (value) {
             if (value.data.error === "cout") {
                 location.reload();
@@ -47,7 +52,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     $scope.getDistrictStats = function (interval) {
         $http({
             method: 'GET',
-            url: "services/dashboard/GetDistrictStats.php?district=" + $scope.district
+            url: "services/dashboard/GetDistrictStats.php?district=" + $scope.district +
+            "&startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
         }).then(function (value) {
             if (value.data.error === "cout") {
                 location.reload();
@@ -66,7 +72,8 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     $scope.getCircleStats = function (interval) {
         $http({
             method: 'GET',
-            url: "services/dashboard/GetCircleStats.php?district=" + $scope.district + "&circle="+$scope.circle.name
+            url: "services/dashboard/GetCircleStats.php?district=" + $scope.district + "&circle="+$scope.circle.name +
+            "&startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
         }).then(function (value) {
             if (value.data.error === "cout") {
                 location.reload();
@@ -81,6 +88,24 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
             alert("Something is Wrong!");
         });
     };
+
+    $scope.$watch('startDate', function (newVal) {
+        try {
+            $scope.selectedDateStart = newVal.getFullYear() + "-" + (newVal.getMonth() + 1) + "-" + newVal.getDate();
+            $scope.dropdownChange();
+        } catch (E) {
+            // $scope.selectedDateStart = undefined;
+        }
+    });
+
+    $scope.$watch('endDate', function (newVal) {
+        try {
+            $scope.selectedDateEnd = newVal.getFullYear() + "-" + (newVal.getMonth() + 1) + "-" + newVal.getDate();
+            $scope.dropdownChange();
+        } catch (E) {
+            // $scope.selectedDateEnd = undefined;
+        }
+    });
 
     function generateAllOrDistrictChart(all, interval) {
 

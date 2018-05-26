@@ -10,7 +10,7 @@ if (!$check) return;
 <div ng-controller="DashboardController" ng-cloak>
     <md-card flex="100" layout="row" layout-wrap layout-align="center center" class="div-margins"
              ng-init="getDistrictCircle()">
-        <div flex="33" flex-xs="50" layout-align="center center" layout="row">
+        <div flex="20" flex-xs="50" layout-align="center center" layout="row">
             <md-input-container flex="100">
                 <label>Select District</label>
                 <md-select ng-model="district" ng-change="dropdownChange('district', district)">
@@ -21,7 +21,7 @@ if (!$check) return;
             </md-input-container>
         </div>
 
-        <div flex="33" flex-xs="50" layout-align="center center" layout="row">
+        <div flex="20" flex-xs="50" layout-align="center center" layout="row">
             <md-input-container flex="100">
                 <label>Select Circle</label>
                 <md-select ng-model="circle" ng-change="dropdownChange('circle', circle)">
@@ -31,6 +31,24 @@ if (!$check) return;
                     </md-option>
                 </md-select>
             </md-input-container>
+        </div>
+
+        <div layout="row" flex="20" layout-align="center center">
+            <h4>Starting Date: </h4>
+            <md-datepicker ng-model="startDate" md-max-date="maxDate"
+                           md-placeholder="Enter date" name="dateField"
+                           md-open-on-focus>
+            </md-datepicker>
+            <h5>{{selectedDateStart}}</h5>
+        </div>
+
+        <div layout="row" flex="20" layout-align="center center">
+            <h4>End Date: </h4>
+            <md-datepicker ng-model="endDate" md-max-date="maxDate"
+                           md-placeholder="Enter date" name="dateField"
+                           md-open-on-focus>
+            </md-datepicker>
+            <h5>{{selectedDateEnd}}</h5>
         </div>
     </md-card>
 

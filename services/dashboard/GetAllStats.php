@@ -20,6 +20,9 @@ class GetAllStats extends Connection
             return;
         }
 
+        $startDate = $_REQUEST['startDate'];
+        $endDate = $_REQUEST['endDate'];
+
 //        $sql = "with dap as (select distinct on (pin) * from base_android_data where pin is not null)
 //select f.district_name as name, f.count as total, coalesce((g.count),null,0) as surveyed, f.count - coalesce(g.count, null,0)as unsurveyed, coalesce(un.count, null,0) as unassessed
 //,coalesce(l.count,null,0) as land, coalesce(g.count - l.count, null, 0) as openplot,
@@ -55,17 +58,20 @@ class GetAllStats extends Connection
 //    select dap.district_name, count(*) from dap where dap.landuse_special = true group by dap.district_name
 //) as special on f.district_name = special.district_name;";
 
-        $sql = "with dap as (select distinct on (pin) * from base_android_data where pin is not null)
+        $sql = "with dates as (select $1::date as startDate, $2::date as endDate),
+dap as (select distinct on (pin) * from base_android_data where pin is not null)
 select f.district_name as name, f.count as total, coalesce((g.count),null,0) as surveyed, f.count - coalesce(g.count, null,0)as unsurveyed, coalesce(un.count, null,0) as unassessed
 from (
     select district_name, count(*) as count from tbl_raw_data group by district_name
 ) as f left outer join (
-    select dap.district_name, count(*) from dap group by dap.district_name
+    select dap.district_name, count(*) from dap where 
+    survey_datetime::date >= (select startDate from dates) and survey_datetime::date <= (select endDate from dates) group by dap.district_name
 ) as g on f.district_name = g.district_name
 left outer join (
-    select district_name, count(*) from base_android_data where pin is null group by district_name
+    select district_name, count(*) from base_android_data where pin is null and
+    survey_datetime::date >= (select startDate from dates) and survey_datetime::date <= (select endDate from dates) group by district_name
 )as un on f.district_name = un.district_name;";
-        $result = pg_query($sql);
+        $result = pg_query_params($sql, array($startDate, $endDate));
         $stats = pg_fetch_all($result);
 
         $sqlTimeline = "select district_name as name, survey_datetime::date as date, count(*) from base_android_data where survey_datetime >= (select (CURRENT_DATE - '7 days'::interval)::date)
