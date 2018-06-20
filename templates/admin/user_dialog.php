@@ -75,7 +75,7 @@
                         <th>IMEI</th>
                         <td>
                             <md-input-container style="margin-bottom: -30px">
-                                <input ng-model="user.imei" name="imei" type="number" required="" maxlength="15"
+                                <input ng-model="user.imei" name="imei" type="text" required="" maxlength="15"
                                        minlength="15" required>
                             </md-input-container>
                         </td>
