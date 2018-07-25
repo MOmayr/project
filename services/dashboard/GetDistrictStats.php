@@ -64,7 +64,7 @@ class GetDistrictStats extends Connection
 dap as (select distinct on (pin) * from base_android_data where pin is not null and district_name = (select d.district from d))
 select f.circle_name as name, f.count as total, coalesce((g.count),null,0) as surveyed, f.count - coalesce(g.count, null,0)as unsurveyed, coalesce(un.count, null,0) as unassessed
 from (
-    select circle_name, count(*) as count from tbl_raw_data where district_name = (select d.district from d) group by circle_name
+    select circle_name, count(*) as count from tbl_raw_data where district_name = (select d.district from d) and landuse <> 'Others' group by circle_name
 ) as f left outer join (
     select dap.circle_name, count(*) from dap where 
     survey_datetime::date >= (select startDate from d) and survey_datetime::date <= (select endDate from d) group by dap.circle_name

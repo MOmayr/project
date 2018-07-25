@@ -62,7 +62,7 @@ class GetAllStats extends Connection
 dap as (select distinct on (pin) * from base_android_data where pin is not null)
 select f.district_name as name, f.count as total, coalesce((g.count),null,0) as surveyed, f.count - coalesce(g.count, null,0)as unsurveyed, coalesce(un.count, null,0) as unassessed
 from (
-    select district_name, count(*) as count from tbl_raw_data group by district_name
+    select district_name, count(*) as count from tbl_raw_data where landuse <> 'Others' group by district_name
 ) as f left outer join (
     select dap.district_name, count(*) from dap where 
     survey_datetime::date >= (select startDate from dates) and survey_datetime::date <= (select endDate from dates) group by dap.district_name

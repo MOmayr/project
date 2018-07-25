@@ -31,6 +31,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     };
 
     $scope.getAllStats = function (interval) {
+
         $http({
             method: 'GET',
             url: "services/dashboard/GetAllStats.php?startDate=" + $scope.selectedDateStart + "&endDate=" + $scope.selectedDateEnd
@@ -92,6 +93,7 @@ app.controller('DashboardController', function ($scope, $http, $rootScope, $stat
     $scope.$watch('startDate', function (newVal) {
         try {
             $scope.selectedDateStart = newVal.getFullYear() + "-" + (newVal.getMonth() + 1) + "-" + newVal.getDate();
+            console.log("new val " +$scope.selectedDateStart);
             $scope.dropdownChange();
         } catch (E) {
             // $scope.selectedDateStart = undefined;
